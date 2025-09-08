@@ -10,15 +10,21 @@ namespace mat {
         std::vector<std::vector<T>> data_;
     public:
         matrix() : cols_{ 2 }, rows_{ 2 }, data_(2, std::vector<T>(2, 0)) {};
-        matrix(size_t cols, size_t rows) : cols_{ cols }, rows_{ rows }, data_(rows_, std::vector<T>(cols_, 0)) {};
+        matrix(size_t rows, size_t cols) : cols_{ cols }, rows_{ rows }, data_(rows_, std::vector<T>(cols_, 0)) {};
         matrix(std::initializer_list<std::vector<T>> mat) : cols_{ mat.begin()->size() }, rows_{ mat.size() }, data_(mat) {
             for (size_t i = 0; i < rows_; i++) {
-                if (data_[i].size() > cols_) throw std::invalid_argument("Invalid initializer list");
+                if (data_[i].size() != cols_) throw std::invalid_argument("Invalid initializer list");
             }
         };
 
         matrix& insert(std::initializer_list<std::vector<T>> mat) {
+            rows_ = mat.size();
+            cols_ = mat.begin()->size();
             data_ = mat;
+
+            for (size_t i = 0; i < rows_; i++) {
+                if (data_[i].size() != cols_) throw std::invalid_argument("Invalid initializer list");
+            }
             return *this;
         }
 

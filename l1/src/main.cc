@@ -3,13 +3,9 @@
 #include <iostream>
 
 int main(int argc, char const* argv[]) {
-    mat::matrix<double> mat1 = {{1}, {2}};
-
-    mat1 = {{1, 2, 3}, {1, 2, 3}};
-    mat1.print();
-    mat1.getElement(1, 1) = 0;
-    mat1.print();
-
-
+    mat::matrix<unsigned> mat{2, 3};
+    mat = { {1, 2, 4}, {4, 1, 3} };
+    std::vector<unsigned> p = mat[1];
+    
     return 0;
 }
