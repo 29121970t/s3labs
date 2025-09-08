@@ -39,34 +39,13 @@ namespace mat {
             data_[i][j] = el;
             return *this;
         }
-        matrix& subtractFromElement(size_t i, size_t j, T val){
+        matrix& subtractFromElement(size_t i, size_t j, T val) {
             data_[i][j] -= val;
         }
 
         const std::vector<T>& operator[](size_t index) const { return data_[index]; }
 
-        // matrix operator*(const matrix& other) const;
-
-        // matrix operator*(const T& other) const;
-
-        // matrix operator/(const T& other) const;
-
-        // bool operator==(matrix const& rhs) const;
-        // bool operator!=(matrix const& rhs) const;
-
-        // T det();
-        // matrix transpose();
-
     };
-    template<typename U>
-    std::ostream& operator<<(std::ostream& out, const matrix<U>& mat) {
-        for (size_t i = 0; i < mat.getRows(); i++) {
-            for (size_t j = 0; j < mat.getCols(); j++) {
-                out << mat[i][j] << " ";
-            }
-            out << std::endl;
-        }
-        return out;
-    }
+
 }
 
