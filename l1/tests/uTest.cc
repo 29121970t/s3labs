@@ -15,7 +15,7 @@ TEST(Creation_Test, Subtest_2) {
 }
 TEST(Creation_Test, Subtest_3) {
     mat::matrix<float> mat = { {1, 2, 4}, {4, 1, 3} };
-    float arr[2][3] = { {1, 2, 4}, {4, 1, 3} };
+    std::array<std::array<float, 3>, 2> arr = {{ {1, 2, 4}, {4, 1, 3} }};
     for (size_t i = 0; i < mat.getRows(); i++) {
         for (size_t j = 0; j < mat.getCols(); j++) {
             ASSERT_EQ(mat[i][j], arr[i][j]);
@@ -25,7 +25,7 @@ TEST(Creation_Test, Subtest_3) {
 TEST(Creation_Test, Subtest_4) {
     mat::matrix<unsigned> mat{ 2, 3 };
     mat = { {1, 2, 4}, {4, 1, 3} };
-    float arr[2][3] = { {1, 2, 4}, {4, 1, 3} };
+    std::array<std::array<unsigned, 3>, 2> arr = {{ {1, 2, 4}, {4, 1, 3} }};
     for (size_t i = 0; i < mat.getRows(); i++) {
         for (size_t j = 0; j < mat.getCols(); j++) {
             ASSERT_EQ(mat[i][j], arr[i][j]);
@@ -40,7 +40,7 @@ TEST(Creation_Test, Subtest_5) {
 TEST(Insetrion_Tests, Subtest_1) {
     mat::matrix<long> mat;
     mat.insert({ {1, 312, 4, 54, 32}, {213, 4, 42, 1, 2} });
-    long arr[][5] = { {1, 312, 4, 54, 32}, {213, 4, 42, 1, 2} };
+    std::array<std::array<long, 5>, 2> arr = {{ {1, 312, 4, 54, 32}, {213, 4, 42, 1, 2} }};
     for (size_t i = 0; i < mat.getRows(); i++) {
         for (size_t j = 0; j < mat.getCols(); j++) {
             ASSERT_EQ(mat[i][j], arr[i][j]);
