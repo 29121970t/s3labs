@@ -39,31 +39,11 @@ namespace mat {
             data_[i][j] = el;
             return *this;
         }
-
+        matrix& subtractFromElement(size_t i, size_t j, T val){
+            data_[i][j] -= val;
+        }
 
         const std::vector<T>& operator[](size_t index) const { return data_[index]; }
-
-        matrix operator+(const matrix& other) const {
-            if (other.cols_ != cols_ || other.rows_ != rows_) throw std::logic_error("Mtrix size mismatch while addition");
-            matrix mat{ cols_, rows_ };
-            for (size_t i = 0; i < rows_; i++) {
-                for (size_t j = 0; j < cols_; j++) {
-                    mat.data_[i][j] = data_[i][j] + other.data_[i][j];
-                }
-            }
-            return mat;
-        }
-
-        matrix operator-(const matrix& other) const {
-            if (other.cols_ != cols_ || other.rows_ != rows_) throw std::logic_error("Mtrix size mismatch while subtraction");
-            matrix mat{ cols_, rows_ };
-            for (size_t i = 0; i < rows_; i++) {
-                for (size_t j = 0; j < cols_; j++) {
-                    mat.data_[i][j] = data_[i][j] - other.data_[i][j];
-                }
-            }
-            return mat;
-        }
 
         // matrix operator*(const matrix& other) const;
 
