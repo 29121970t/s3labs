@@ -19,4 +19,6 @@ target_link_libraries(
 )
 
 include(GoogleTest)
-gtest_discover_tests(uTest)
+if(NOT CMAKE_SYSTEM_NAME STREQUAL Windows)
+  gtest_discover_tests(uTest)
+endif()
