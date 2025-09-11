@@ -54,7 +54,7 @@ void printMainScreen() {
 int main(void) {
     mat::matrix<double> matrix;
     array<function<void(mat::matrix<double>&)>, 4> actions = {inputMatrix, printMatrix, subtractFromElement,
-                                                              [](mat::matrix<double>&) { exit(0); }};
+                                                              [](const mat::matrix<double>&) { exit(0); }};
     while (true) {
         printMainScreen();
         unsigned int response;
