@@ -33,10 +33,10 @@ void subtractFromElement(mat::matrix<double>& mat) {
     size_t col;
     double op;
     readT(
-        row, "Please enter elemet row: ", [&mat](size_t& num) { return num > 0 && num <= mat.getRows(); },
+        row, "Please enter elemet row: ", [&mat](const size_t& num) { return num > 0 && num <= mat.getRows(); },
         "Invalid value\n");
     readT(
-        col, "Please enter elemet collumn: ", [&mat](size_t& num) { return num > 0 && num <= mat.getCols(); },
+        col, "Please enter elemet collumn: ", [&mat](const size_t& num) { return num > 0 && num <= mat.getCols(); },
         "Invalid value\n");
     readT(op, "Please enter number to subtruct: ");
     mat.subtractFromElement(row - 1, col - 1, op);
@@ -59,7 +59,7 @@ void printMainScreen() {
 int main(void) {
     mat::matrix<double> matrix;
     array<function<void(mat::matrix<double>&)>, 4> actions = {inputMatrix, printMatrix, subtractFromElement,
-                                                              [](mat::matrix<double>& a) { exit(0); }};
+                                                              [](mat::matrix<double>&) { exit(0); }};
     while (true) {
         printMainScreen();
         unsigned int response;
