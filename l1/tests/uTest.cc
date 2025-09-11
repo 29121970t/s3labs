@@ -51,7 +51,7 @@ TEST(Printing_Tests, Subtest_1) {
     testing::internal::CaptureStdout();
     mat.print();
     string out = testing::internal::GetCapturedStdout();
-    EXPECT_EQ(out, "1 2 5 \n7 7 7 \n9 0 1 \n");
+    EXPECT_EQ(out, "|1 2 5|\n|7 7 7|\n|9 0 1|\n");
 }
 
 TEST(Subtraction_test, 1) {

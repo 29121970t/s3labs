@@ -1,9 +1,10 @@
 #pragma once
+#include <iomanip>
 #include <iostream>
 #include <memory>
+#include <sstream>
 #include <stdexcept>
 #include <vector>
-
 namespace mat {
 
 template <typename U>
@@ -20,16 +21,6 @@ class matrix {
     T *data_;
 
    private:
-    matrix &resizeDel_(size_t rows, size_t cols) {
-        size_t oldLen = rows_ * cols_;
-        rows_ = rows;
-        cols_ = cols;
-        if (oldLen < rows_ * cols_) {
-            delete[] data_;
-            data_ = new T[rows_ * cols_];
-        }
-        return *this;
-    }
     void copyFromInitMat(const initializer_matrix<T> &mat) {
         for (size_t i = 0; i < rows_; i++) {
             if ((mat.begin() + i)->size() != cols_) throw std::invalid_argument("Invalid initializer list");
@@ -49,8 +40,19 @@ class matrix {
     ~matrix() { delete[] data_; }
 
     const matrix &insert(const initializer_matrix<T> &mat) {
-        resizeDel_(mat.size(), mat.begin()->size());
+        resize(mat.size(), mat.begin()->size());
         copyFromInitMat(mat);
+        return *this;
+    }
+
+    matrix &resize(size_t rows, size_t cols) {
+        size_t oldLen = rows_ * cols_;
+        rows_ = rows;
+        cols_ = cols;
+        if (oldLen < rows_ * cols_) {
+            delete[] data_;
+            data_ = new T[rows_ * cols_];
+        }
         return *this;
     }
 
@@ -58,15 +60,24 @@ class matrix {
     size_t getCols() const { return cols_; }
 
     void print() const {
-        for (size_t i = 0; i < rows_; i++) {
-            for (size_t j = 0; j < cols_; j++) {
-                std::cout << data_[i * cols_ + j] << " ";
+        size_t maxWidth = 0;
+        for (int i = 0; i < rows_; i++) {
+            for (int j = 0; j < cols_; j++) {
+                std::stringstream strNumStream;
+                strNumStream << std::defaultfloat << data_[i * cols_ + j];
+                maxWidth = std::max(maxWidth, strNumStream.str().size());
             }
-            std::cout << std::endl;
+        }
+        for (size_t i = 0; i < rows_; i++) {
+            std::cout << '|';
+            for (size_t j = 0; j < cols_ - 1; j++) {
+                std::cout << std::left << std::setw(maxWidth) << data_[i * cols_ + j] << " ";
+            }
+            std::cout << std::setw(maxWidth) << data_[i * cols_ + cols_ - 1] << '|' << std::endl;
         }
     }
     int isElem(size_t i, size_t j) const { return i < rows_ && j < cols_; }
-    T &getElement(size_t i, size_t j) const{
+    T &getElement(size_t i, size_t j) const {
         if (!isElem(i, j)) throw std::invalid_argument("Indexes out of range");
         return data_[i * cols_ + j];
     }
@@ -84,7 +95,7 @@ class matrix {
         return *this;
     }
     matrix &operator=(const matrix &other) {
-        resizeDel_(other.size(), other.begin()->size());
+        resize(other.size(), other.begin()->size());
         std::copy(data_, data_ + cols_ * rows_);
     }
     matrix &operator=(matrix &&other) {
