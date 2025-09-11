@@ -8,7 +8,8 @@
 using namespace std;
 using namespace strUtils;
 void inputMatrix(mat::matrix<double>& mat) {
-    size_t rows, cols;
+    size_t rows;
+    size_t cols;
     auto check = [](size_t num) { return num > 0; };
     readT(rows, "Please enter number of matrix rows: ", check);
     readT(cols, "Please enter number of matrix collumns: ", check);
@@ -28,8 +29,8 @@ void inputMatrix(mat::matrix<double>& mat) {
 void printMatrix(const mat::matrix<double>& mat) { mat.print(); }
 
 void subtractFromElement(mat::matrix<double>& mat) {
-    auto check = [](size_t num) { return num > 0; };
-    size_t row, col;
+    size_t row;
+    size_t col;
     double op;
     readT(
         row, "Please enter elemet row: ", [&mat](size_t& num) { return num > 0 && num <= mat.getRows(); },
@@ -42,12 +43,12 @@ void subtractFromElement(mat::matrix<double>& mat) {
 }
 
 void printCentered(const string& str) {
-    pair<int, int> dimensions = getConsoleDimensions();
-    cout << string((dimensions.first - str.length()) / 2, ' ') << str << endl;
+    auto [rows, cols] = getConsoleDimensions();
+    cout << string((rows - str.length()) / 2, ' ') << str << endl;
 }
 string offest(size_t offset) { return string(offset, ' '); }
 void printMainScreen() {
-    printCentered("\x1b[48;5;35mLab 1\x1b[0m");
+    printCentered("\x{1B}[48;5;35mLab 1\x{1B}[0m");
     cout << "Please select action:" << endl << endl;
     cout << offest(4) << "1.Input matrix" << endl;
     cout << offest(4) << "2.Print matrix" << endl;
@@ -63,7 +64,7 @@ int main(void) {
         printMainScreen();
         unsigned int response;
         readT(response, ">", [](unsigned int num) { return num > 0 && num <= 4; });
-        cout << "\x1b[2J\x1b[H";
+        cout << "\x{1B}[2J\x{1B}[H";
         actions[response - 1](matrix);
     }
 }

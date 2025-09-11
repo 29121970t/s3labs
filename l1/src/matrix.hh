@@ -2,9 +2,11 @@
 #include <iomanip>
 #include <iostream>
 #include <memory>
+#include <ranges>
 #include <sstream>
 #include <stdexcept>
 #include <vector>
+
 namespace mat {
 
 template <typename U>
@@ -22,16 +24,18 @@ class matrix {
 
    private:
     void copyFromInitMat(const initializer_matrix<T> &mat) {
-        for (size_t i = 0; i < rows_; i++) {
-            if ((mat.begin() + i)->size() != cols_) throw std::invalid_argument("Invalid initializer list");
-            const initializer_list<T> *line = mat.begin() + i;
-            std::copy(line->begin(), line->end(), data_ + i * cols_);
+        if (&mat != this) {
+            for (size_t i = 0; i < rows_; i++) {
+                if ((mat.begin() + i)->size() != cols_) throw std::invalid_argument("Invalid initializer list");
+                const initializer_list<T> *line = mat.begin() + i;
+                std::ranges::copy(line->begin(), line->end(), data_ + i * cols_);
+            }
         }
     }
 
    public:
     matrix(size_t rows, size_t cols) : rows_{rows}, cols_{cols}, data_(new T[cols_ * rows_]){};
-    explicit matrix(matrix &&other) : cols_{other.cols_}, rows_{other.rows_}, data_{other.data_} {}
+    explicit matrix(matrix &&other) noexcept : cols_{other.cols_}, rows_{other.rows_}, data_{other.data_} {};
 
     matrix() : matrix(2, 2){};
     explicit matrix(const matrix &other) : matrix(other.cols_, other.rows_) { std::copy(data_, data_ + cols_ * rows_); }
@@ -95,10 +99,10 @@ class matrix {
         return *this;
     }
     matrix &operator=(const matrix &other) {
-        resize(other.size(), other.begin()->size());
-        std::copy(data_, data_ + cols_ * rows_);
+        resize(other.rows_, other.cols_);
+        std::ranges::copy(other.data_, other.data_ + cols_ * rows_, data_);
     }
-    matrix &operator=(matrix &&other) {
+    matrix &operator=(matrix &&other) noexcept {
         delete[] data_;
         cols_ = other.cols_;
         rows_ = other.rows_;

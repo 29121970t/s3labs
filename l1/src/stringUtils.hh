@@ -2,11 +2,20 @@
 #include <iostream>
 #include <limits>
 
+#ifdef __linux__
+
+#include <sys/ioctl.h>
+#include <unistd.h>
+
+#endif
+
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 namespace strUtils {
 
 #ifdef _WIN32
-
-#include <windows.h>
 std::pair<int, int> getConsoleDimensions() {
     CONSOLE_SCREEN_BUFFER_INFO csbi;
     GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
