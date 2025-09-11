@@ -1,7 +1,7 @@
 #include <functional>
 #include <iostream>
 #include <limits>
-
+#include <print>
 #include "matrix.hh"
 #include "stringUtils.hh"
 
@@ -19,9 +19,7 @@ void inputMatrix(mat::matrix<double>& mat) {
     for (size_t i = 0; i < rows; i++) {
         for (size_t j = 0; j < cols; j++) {
             double element;
-            stringstream strNumStream;
-            strNumStream << "Please enter element with index [" << i + 1 << ']' << '[' << j + 1 << "]:";
-            readT(element, strNumStream.str());
+            readT(element, format("Please enter element with index [{}][{}]",i + 1, j+1 ));
             mat.setElement(i, j, element);
         }
     }
@@ -42,18 +40,15 @@ void subtractFromElement(mat::matrix<double>& mat) {
     mat.subtractFromElement(row - 1, col - 1, op);
 }
 
-void printCentered(const string& str) {
-    auto [rows, cols] = getConsoleDimensions();
-    cout << string((rows - str.length()) / 2, ' ') << str << endl;
-}
 string offest(size_t offset) { return string(offset, ' '); }
 void printMainScreen() {
-    printCentered("\x{1B}[48;5;35mLab 1\x{1B}[0m");
-    cout << "Please select action:" << endl << endl;
-    cout << offest(4) << "1.Input matrix" << endl;
-    cout << offest(4) << "2.Print matrix" << endl;
-    cout << offest(4) << "3.Subtruct from matrix element" << endl;
-    cout << offest(4) << "4.Exit" << endl;
+    auto [cols, rows] = getConsoleDimensions();
+    println("{:^{}}", "\x{1B}[48;5;35mLab 1\x{1B}[0m", cols);
+    println("Please select action:\n");
+    println("    1.Input matrix");
+    println("    2.Print matrix");
+    println("    3.Subtruct from matrix element");
+    println("    4.Exit");
 }
 
 int main(void) {
@@ -64,7 +59,7 @@ int main(void) {
         printMainScreen();
         unsigned int response;
         readT(response, ">", [](unsigned int num) { return num > 0 && num <= 4; });
-        cout << "\x{1B}[2J\x{1B}[H";
+        cout << "\x{1B}[2J\x{1B}[H\n";
         actions[response - 1](matrix);
     }
 }

@@ -28,7 +28,7 @@ class matrix {
             for (size_t i = 0; i < rows_; i++) {
                 if ((mat.begin() + i)->size() != cols_) throw std::invalid_argument("Invalid initializer list");
                 const initializer_list<T> *line = mat.begin() + i;
-                std::ranges::copy(line->begin(), line->end(), data_ + i * cols_);
+                std::ranges::copy(line, data_ + i * cols_);
             }
         }
     }
@@ -38,7 +38,7 @@ class matrix {
     explicit matrix(matrix &&other) noexcept : cols_{other.cols_}, rows_{other.rows_}, data_{other.data_} {};
 
     matrix() : matrix(2, 2){};
-    explicit matrix(const matrix &other) : matrix(other.cols_, other.rows_) { std::copy(data_, data_ + cols_ * rows_); }
+    explicit matrix(const matrix &other) : matrix(other.cols_, other.rows_) { std::copy(other.data_, other.data_ + cols_ * rows_, data_); }
     matrix(const initializer_matrix<T> &mat) : matrix(mat.size(), mat.begin()->size()) { copyFromInitMat(mat); };
 
     ~matrix() { delete[] data_; }
@@ -67,17 +67,16 @@ class matrix {
         size_t maxWidth = 0;
         for (int i = 0; i < rows_; i++) {
             for (int j = 0; j < cols_; j++) {
-                std::stringstream strNumStream;
-                strNumStream << std::defaultfloat << data_[i * cols_ + j];
-                maxWidth = std::max(maxWidth, strNumStream.str().size());
+                maxWidth = std::max(maxWidth, std::format("{}g", data_[i * cols_ + j]).size());
             }
         }
+        maxWidth--;
         for (size_t i = 0; i < rows_; i++) {
             std::cout << '|';
             for (size_t j = 0; j < cols_ - 1; j++) {
-                std::cout << std::left << std::setw(maxWidth) << data_[i * cols_ + j] << " ";
+                std::print("{:<{}} ", data_[i * cols_ + j], maxWidth);
             }
-            std::cout << std::setw(maxWidth) << data_[i * cols_ + cols_ - 1] << '|' << std::endl;
+            std::print("{:<{}}|\n", data_[i * cols_ + cols_ - 1], maxWidth);
         }
     }
     int isElem(size_t i, size_t j) const { return i < rows_ && j < cols_; }
