@@ -52,16 +52,15 @@ void printMainScreen() {
 }
 
 int main(void) {
-    // mat::matrix matrix;
-    // array<function<void(mat::matrix&)>, 4> actions = {inputMatrix, printMatrix, subtractFromElement,
-    //                                                           [](const mat::matrix&) { exit(0); }};
-    // while (true) {
-    //     printMainScreen();
-    //     unsigned int response;
-    //     readT(response, ">", [](unsigned int num) { return num > 0 && num <= 4; });
-    //     cout << "\x{1B}[2J\x{1B}[H\n";
-    //     actions[response - 1](matrix);
-    // }
-    mat::matrix mat = {{1, 2, 4}, {4, 1, 3}};
-    return 0;
+    mat::matrix matrix;
+    array<function<void(mat::matrix&)>, 4> actions = {inputMatrix, printMatrix, subtractFromElement,
+                                                              [](const mat::matrix&) { exit(0); }};
+    while (true) {
+        printMainScreen();
+        unsigned int response;
+        readT(response, ">", [](unsigned int num) { return num > 0 && num <= 4; });
+        cout << "\x{1B}[2J\x{1B}[H\n";
+        actions[response - 1](matrix);
+    }
+
 }

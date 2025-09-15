@@ -12,7 +12,7 @@ matrix::matrix(size_t rows, size_t cols) : rows_{rows}, cols_{cols}, data_(new d
 
 matrix::matrix() : matrix(2, 2){};
 
-matrix::matrix(matrix &&other) noexcept : cols_{other.cols_}, rows_{other.rows_}, data_{other.data_} {};
+matrix::matrix(matrix &&other) noexcept :  rows_{other.rows_}, cols_{other.cols_}, data_{other.data_} {};
 
 matrix::matrix(const matrix &other) : matrix(other.cols_, other.rows_) {
     std::copy(other.data_, other.data_ + cols_ * rows_, data_);
@@ -75,12 +75,12 @@ double &matrix::getElement(size_t i, size_t j) const {
     return data_[i * cols_ + j];
 }
 
-const matrix &matrix::setElement(size_t i, size_t j, double &el) {
+const matrix &matrix::setElement(size_t i, size_t j, double el) {
     getElement(i, j) = el;
     return *this;
 }
 
-const matrix &matrix::subtractFromElement(size_t i, size_t j, double val) {
+const matrix &matrix::subtractFromElement(size_t i, size_t j, double val) const{
     getElement(i, j) -= val;
     return *this;
 }
