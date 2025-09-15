@@ -16,6 +16,7 @@ add_executable(
 target_link_libraries(
   uTest
   GTest::gtest_main
+  matrix
 )
 
 include(GoogleTest)

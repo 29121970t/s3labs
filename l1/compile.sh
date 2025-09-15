@@ -16,4 +16,4 @@ do
 done
 mkdir $BASEDIR/build
 cmake $args -DCMAKE_BUILD_TYPE=DEBUG -S $BASEDIR -B $BASEDIR/build -G Ninja
-cmake --build $BASEDIR/build --parallel 16
+cmake --build $BASEDIR/build -j 16

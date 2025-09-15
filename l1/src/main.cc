@@ -7,7 +7,7 @@
 
 using namespace std;
 using namespace strUtils;
-void inputMatrix(mat::matrix<double>& mat) {
+void inputMatrix(mat::matrix& mat) {
     size_t rows;
     size_t cols;
     auto check = [](size_t num) { return num > 0; };
@@ -24,9 +24,9 @@ void inputMatrix(mat::matrix<double>& mat) {
         }
     }
 }
-void printMatrix(const mat::matrix<double>& mat) { mat.print(); }
+void printMatrix(const mat::matrix& mat) { mat.print(); }
 
-void subtractFromElement(mat::matrix<double>& mat) {
+void subtractFromElement(mat::matrix& mat) {
     size_t row;
     size_t col;
     double op;
@@ -52,14 +52,16 @@ void printMainScreen() {
 }
 
 int main(void) {
-    mat::matrix<double> matrix;
-    array<function<void(mat::matrix<double>&)>, 4> actions = {inputMatrix, printMatrix, subtractFromElement,
-                                                              [](const mat::matrix<double>&) { exit(0); }};
-    while (true) {
-        printMainScreen();
-        unsigned int response;
-        readT(response, ">", [](unsigned int num) { return num > 0 && num <= 4; });
-        cout << "\x{1B}[2J\x{1B}[H\n";
-        actions[response - 1](matrix);
-    }
+    // mat::matrix matrix;
+    // array<function<void(mat::matrix&)>, 4> actions = {inputMatrix, printMatrix, subtractFromElement,
+    //                                                           [](const mat::matrix&) { exit(0); }};
+    // while (true) {
+    //     printMainScreen();
+    //     unsigned int response;
+    //     readT(response, ">", [](unsigned int num) { return num > 0 && num <= 4; });
+    //     cout << "\x{1B}[2J\x{1B}[H\n";
+    //     actions[response - 1](matrix);
+    // }
+    mat::matrix mat = {{1, 2, 4}, {4, 1, 3}};
+    return 0;
 }
