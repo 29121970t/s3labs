@@ -5,4 +5,4 @@
 
 [Sonar cloud](https://sonarcloud.io/project/overview?id=29121970t_s3labs)
 
-[Отчёт](https://)
+[Отчёт](https://github.com/29121970t/s3labs/blob/main/l1/1.pdf)
