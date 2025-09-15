@@ -75,7 +75,7 @@ double &matrix::getElement(size_t i, size_t j) const {
     return data_[i * cols_ + j];
 }
 
-const matrix &matrix::setElement(size_t i, size_t j, double el) {
+const matrix &matrix::setElement(size_t i, size_t j, double el) const{
     getElement(i, j) = el;
     return *this;
 }

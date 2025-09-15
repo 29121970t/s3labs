@@ -30,7 +30,7 @@ class matrix {
     size_t getCols() const;
     int isElem(size_t i, size_t j) const;
     double &getElement(size_t i, size_t j) const;
-    const matrix &setElement(size_t i, size_t j, double el);
+    const matrix &setElement(size_t i, size_t j, double el) const;
 
     void print() const;
     const matrix &subtractFromElement(size_t i, size_t j, double val) const;
