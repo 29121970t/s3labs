@@ -19,7 +19,7 @@ void inputMatrix(mat::matrix& mat) {
     for (size_t i = 0; i < rows; i++) {
         for (size_t j = 0; j < cols; j++) {
             double element;
-            readT(element, format("Please enter element with index [{}][{}]",i + 1, j+1 ));
+            readT(element, format("Please enter element with index [{}][{}]:",i + 1, j+1 ));
             mat.setElement(i, j, element);
         }
     }
