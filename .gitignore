@@ -45,7 +45,7 @@ CMakeFiles/
 *~.*
 .*
 !.gitignore
-
+~$1.*
 # Build files
 build/
 l2_1/
