@@ -1,7 +1,6 @@
 #pragma once
 #include <memory>
 
-
 namespace mat {
 using initializer_list = std::initializer_list<double>;
 using initializer_matrix = std::initializer_list<initializer_list>;

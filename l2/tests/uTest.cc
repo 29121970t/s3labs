@@ -36,13 +36,14 @@ TEST(Insetrion_Tests, Subtest_2) {
 }
 TEST(Insetrion_Tests, Subtest_3) {
     str::string str1 = "tessstsss__266666";
-    str::string str2 = "31testsss__2wqeqw";
+    str::string str2 = "31testsss__2wqe";
     ASSERT_EQ((str1 >= str2), true);
-    ASSERT_EQ((str2 >= str1), true);
+    ASSERT_EQ((str2 >= str1), false);
 }
 TEST(Insetrion_Tests, Subtest_4) {
     str::string str1 = "tessstsss__2";
     str::string str2 = "31testsss__2wqeqw";
+    cout << (str1 < str2);
     ASSERT_EQ((str1 < str2), true);
     ASSERT_EQ((str2 < str1), false);
 }

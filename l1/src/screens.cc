@@ -2,13 +2,13 @@
 #include <print>
 
 #include "matrix.hh"
-#include "consoleUtils.hh"
+#include "../../lib/consoleUtils.hh"
 
 using namespace console_utils;
 using namespace std;
 
 namespace screen_handlers {
-void inputMatrix(mat::Matrix& mat) {
+bool inputMatrix(mat::Matrix& mat) {
     size_t rows;
     size_t cols;
     auto check = [](size_t num) { return num > 0; };
@@ -24,10 +24,11 @@ void inputMatrix(mat::Matrix& mat) {
             mat.setElement(i, j, element);
         }
     }
+    return true;
 }
-void printMatrix(const mat::Matrix& mat) { mat.print(); }
+bool printMatrix(const mat::Matrix& mat) { mat.print(); return true;}
 
-void subtractFromElement(mat::Matrix& mat) {
+bool subtractFromElement(const mat::Matrix& mat) {
     size_t row;
     size_t col;
     double op;
@@ -39,6 +40,7 @@ void subtractFromElement(mat::Matrix& mat) {
         "Invalid value\n");
     readT(op, "Please enter number to subtruct: ");
     mat.subtractFromElement(row - 1, col - 1, op);
+    return true;
 }
 
 void printMainScreen() {

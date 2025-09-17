@@ -2,34 +2,39 @@
 #include <print>
 
 #include "string.hh"
-#include "consoleUtils.hh"
+#include "../../lib/consoleUtils.hh"
 
-
+using namespace std;
 namespace screen_handlers {
-void printMainScreen() {
+bool printMainScreen() {
     auto [cols, rows] = console_utils::getConsoleDimensions();
-    std::println("{:^{}}", "\x{1B}[48;5;35mLab 2\x{1B}[0m", cols);
-    std::println("Please select action:\n");
-    std::println("    1.Input 2 strings");
-    std::println("    2.Print strings");
-    std::println("    3.Check operators");
-    std::println("    4.Exit");
+    println("{:^{}}", "\x{1B}[48;5;35mLab 2\x{1B}[0m", cols);
+    println("Please select action:\n");
+    println("    1.Input 2 strings");
+    println("    2.Print strings");
+    println("    3.Check operators");
+    println("    4.Exit");
+    return true;
 }
-void inputStrings(str::string &str1, str::string &str2) {
-    std::cout << "Please enter first string:";
-    std::cin >> str1;
-    std::cout << "Please enter second string:";
-    std::cin >> str2;
+bool inputStrings(str::string &str1, str::string &str2) {
+    cout << "Please enter first string:";
+    cin >> str1;
+    cout << "Please enter second string:";
+    cin >> str2;
+    return true;
+
 }
-void printStrings(const str::string &str1, const str::string &str2) {
-    std::cout << "First string: " << str1 << std::endl;
-    std::cout << "Second string: " << str2 << std::endl;
+bool printStrings(const str::string &str1, const str::string &str2) {
+    cout << "First string: " << str1 << std::endl;
+    cout << "Second string: " << str2 << std::endl;
+    return true;
 }
-void checkOperators(const str::string &str1, const str::string &str2) {
-    std::println("str1 < str2: {}", str1 < str2);
-    std::println("str1 > str2: {}", str1 > str2);
-    std::println("str1 <= str2: {}", str1 <= str2);
-    std::println("str1 >= str2: {}", str1 >= str2);
-    std::println("str1 != str2: {}", str1 != str2);
+bool checkOperators(const str::string &str1, const str::string &str2) {
+    println("str1 < str2: {}", str1 < str2);
+    println("str1 > str2: {}", str1 > str2);
+    println("str1 <= str2: {}", str1 <= str2);
+    println("str1 >= str2: {}", str1 >= str2);  
+    println("str1 != str2: {}", str1 != str2);
+    return true;
 }
 }  // namespace screen_handlers

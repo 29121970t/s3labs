@@ -1,0 +1,1 @@
+add_library(consoleUtils STATIC consoleUtils.cc)

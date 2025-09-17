@@ -1,9 +1,6 @@
 #include <functional>
-#include <iostream>
-#include <limits>
-#include <print>
 
-#include "consoleUtils.hh"
+#include "../../lib/consoleUtils.hh"
 #include "matrix.hh"
 #include "screens.hh"
 
@@ -13,13 +10,13 @@ using namespace screen_handlers;
 
 int main(void) {
     mat::Matrix matrix;
-    array<function<void(mat::Matrix&)>, 4> actions = {inputMatrix, printMatrix, subtractFromElement,
-                                                      [](const mat::Matrix&) { exit(0); }};
-    while (true) {
+    array<function<bool(mat::Matrix&)>, 4> actions = {inputMatrix, printMatrix, subtractFromElement,
+                                                      [](const mat::Matrix&) { return 0; }};
+    unsigned int response;
+    do {
         printMainScreen();
-        unsigned int response;
         readT(response, ">", [](unsigned int num) { return num > 0 && num <= 4; });
         cout << "\x{1B}[2J\x{1B}[H\n";
-        actions[response - 1](matrix);
-    }
+    } while (actions[response - 1](matrix));
+    return 0;
 }

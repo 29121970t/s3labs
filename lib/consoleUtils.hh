@@ -24,7 +24,7 @@ void readT(T& data, const std::string& massage, CT bound) {
 template <typename T>
 void readT(T& data, const std::string& massage) {
     std::cout << massage;
-    while (((std::cin >> data).fail())) {
+    while ((std::cin >> data).fail()) {
         std::cout << "Invalid input. Reread input requierments\n";
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');

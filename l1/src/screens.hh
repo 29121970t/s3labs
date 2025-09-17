@@ -3,8 +3,8 @@
 #include "matrix.hh"
 
 namespace screen_handlers {
-void inputMatrix(mat::Matrix& mat);
-void printMatrix(const mat::Matrix& mat);
-void subtractFromElement(mat::Matrix& mat);
+bool inputMatrix(mat::Matrix& mat);
+bool printMatrix(const mat::Matrix& mat);
+bool subtractFromElement(const mat::Matrix& mat);
 void printMainScreen();
 }  // namespace screen_handlers
