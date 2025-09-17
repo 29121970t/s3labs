@@ -8,22 +8,22 @@
 
 using namespace mat;
 
-matrix::matrix(size_t rows, size_t cols) : rows_{rows}, cols_{cols}, data_(new double[cols_ * rows_]){};
+Matrix::Matrix(size_t rows, size_t cols) : rows_{rows}, cols_{cols}, data_(new double[cols_ * rows_]){};
 
-matrix::matrix() : matrix(2, 2){};
+Matrix::Matrix() : Matrix(2, 2){};
 
-matrix::matrix(matrix &&other) noexcept :  rows_{other.rows_}, cols_{other.cols_}, data_{other.data_} {};
+Matrix::Matrix(Matrix &&other) noexcept :  rows_{other.rows_}, cols_{other.cols_}, data_{other.data_} {};
 
-matrix::matrix(const matrix &other) : matrix(other.cols_, other.rows_) {
+Matrix::Matrix(const Matrix &other) : Matrix(other.cols_, other.rows_) {
     std::copy(other.data_, other.data_ + cols_ * rows_, data_);
 
 }
 
-matrix::matrix(const initializer_matrix &mat) : matrix(mat.size(), mat.begin()->size()) { copyFromInitMat(mat); };
+Matrix::Matrix(const initializer_matrix &mat) : Matrix(mat.size(), mat.begin()->size()) { copyFrom(mat); };
 
-matrix::~matrix() { delete[] data_; }
+Matrix::~Matrix() { delete[] data_; }
 
-void matrix::copyFromInitMat(const initializer_matrix &mat) {
+void Matrix::copyFrom(const initializer_matrix &mat) {
     for (size_t i = 0; i < rows_; i++) {
         if ((mat.begin() + i)->size() != cols_) throw std::invalid_argument("Invalid initializer list");
         const initializer_list line = *(mat.begin() + i);
@@ -31,13 +31,13 @@ void matrix::copyFromInitMat(const initializer_matrix &mat) {
     }
 }
 
-const matrix &matrix::insert(const initializer_matrix &mat) {
+const Matrix &Matrix::insert(const initializer_matrix &mat) {
     resize(mat.size(), mat.begin()->size());
-    copyFromInitMat(mat);
+    copyFrom(mat);
     return *this;
 }
 
-matrix &matrix::resize(size_t rows, size_t cols) {
+Matrix &Matrix::resize(size_t rows, size_t cols) {
     size_t oldLen = rows_ * cols_;
     rows_ = rows;
     cols_ = cols;
@@ -48,10 +48,10 @@ matrix &matrix::resize(size_t rows, size_t cols) {
     return *this;
 }
 
-size_t matrix::getRows() const { return rows_; }
-size_t matrix::getCols() const { return cols_; }
+size_t Matrix::getRows() const { return rows_; }
+size_t Matrix::getCols() const { return cols_; }
 
-void matrix::print() const {
+void Matrix::print() const {
     size_t maxWidth = 0;
     for (int i = 0; i < rows_; i++) {
         for (int j = 0; j < cols_; j++) {
@@ -68,35 +68,35 @@ void matrix::print() const {
     }
 }
 
-int matrix::isElem(size_t i, size_t j) const { return i < rows_ && j < cols_; }
+int Matrix::isElem(size_t i, size_t j) const { return i < rows_ && j < cols_; }
 
-double &matrix::getElement(size_t i, size_t j) const {
+double &Matrix::getElement(size_t i, size_t j) const {
     if (!isElem(i, j)) throw std::invalid_argument("Indexes out of range");
     return data_[i * cols_ + j];
 }
 
-const matrix &matrix::setElement(size_t i, size_t j, double el) const{
+const Matrix &Matrix::setElement(size_t i, size_t j, double el) const{
     getElement(i, j) = el;
     return *this;
 }
 
-const matrix &matrix::subtractFromElement(size_t i, size_t j, double val) const{
+const Matrix &Matrix::subtractFromElement(size_t i, size_t j, double val) const{
     getElement(i, j) -= val;
     return *this;
 }
 
-matrix &matrix::operator=(const initializer_matrix &mat) {
-    copyFromInitMat(mat);
+Matrix &Matrix::operator=(const initializer_matrix &mat) {
+    copyFrom(mat);
     return *this;
 }
 
-matrix &matrix::operator=(const matrix &other) {
+Matrix &Matrix::operator=(const Matrix &other) {
     resize(other.rows_, other.cols_);
     std::ranges::copy(other.data_, other.data_ + cols_ * rows_, data_);
     return *this;
 }
 
-matrix &matrix::operator=(matrix &&other) noexcept {
+Matrix &Matrix::operator=(Matrix &&other) noexcept {
     delete[] data_;
     cols_ = other.cols_;
     rows_ = other.rows_;

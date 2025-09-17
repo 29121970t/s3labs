@@ -5,39 +5,38 @@
 namespace mat {
 using initializer_list = std::initializer_list<double>;
 using initializer_matrix = std::initializer_list<initializer_list>;
-class matrix {
+class Matrix {
    private:
     size_t rows_;
     size_t cols_;
     double *data_;
 
    private:
-    void copyFromInitMat(const initializer_matrix &mat);
+    void copyFrom(const initializer_matrix &mat);
 
    public:
-    matrix();
-    matrix(size_t rows, size_t cols);
-    explicit matrix(matrix &&other) noexcept;
-    explicit matrix(const matrix &other);
-    matrix(const initializer_matrix &mat);
-    ~matrix();
+    Matrix();
+    Matrix(size_t rows, size_t cols);
+    explicit Matrix(Matrix &&other) noexcept;
+    explicit Matrix(const Matrix &other);
+    Matrix(const initializer_matrix &mat);
+    ~Matrix();
 
-    const matrix &insert(const initializer_matrix &mat);
+    const Matrix &insert(const initializer_matrix &mat);
 
-    matrix &resize(size_t rows, size_t cols);
+    Matrix &resize(size_t rows, size_t cols);
 
     size_t getRows() const;
     size_t getCols() const;
-    int isElem(size_t i, size_t j) const;
     double &getElement(size_t i, size_t j) const;
-    const matrix &setElement(size_t i, size_t j, double el) const;
-
+    const Matrix &setElement(size_t i, size_t j, double el) const;
+    int isElem(size_t i, size_t j) const;
     void print() const;
-    const matrix &subtractFromElement(size_t i, size_t j, double val) const;
+    const Matrix &subtractFromElement(size_t i, size_t j, double val) const;
 
-    matrix &operator=(const initializer_matrix &mat);
-    matrix &operator=(const matrix &other);
-    matrix &operator=(matrix &&other) noexcept;
+    Matrix &operator=(const initializer_matrix &mat);
+    Matrix &operator=(const Matrix &other);
+    Matrix &operator=(Matrix &&other) noexcept;
 };
 
 }  // namespace mat
