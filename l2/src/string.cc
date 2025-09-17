@@ -9,12 +9,6 @@ string::string(const char* str) : length_{0}, dataPtr_{nullptr} {
     std::ranges::copy(str, str + length_, dataPtr_.get());
 }
 
-string::string(const char*&& str) : length_{0}, dataPtr_{nullptr} {
-    for (; str[length_]; length_++);
-    ++length_;
-    dataPtr_ = std::make_unique_for_overwrite<char[]>(length_);
-    std::ranges::copy(str, str + length_, dataPtr_.get());
-}
 
 string::string() : length_{2}, dataPtr_{std::make_unique<char[]>(length_)} {};
 
@@ -48,24 +42,14 @@ const char& string::operator[](size_t index) const {
     return dataPtr_[index];
 }
 
-std::ostream& operator<<(std::ostream& os, const string& obj) {
-    os << obj.dataPtr_.get();
-    return os;
-};
-
-std::istream& operator>>(std::istream& is, string& obj) {
-    obj.readFromStream_(is);
-    return is;
-}
-
 void string::resizeD_(size_t newLen) {
     length_ = newLen;
-    std::unique_ptr<char[]> tmp = std::make_unique<char[]>(length_);
+    auto tmp = std::make_unique<char[]>(length_);
     dataPtr_ = std::move(tmp);
 }
 void string::resize_(size_t newLen) {
     length_ = newLen;
-    std::unique_ptr<char[]> tmp = std::make_unique<char[]>(length_);
+    auto tmp = std::make_unique<char[]>(length_);
     std::ranges::copy(dataPtr_.get(), dataPtr_.get() + length_, tmp.get());
     dataPtr_ = std::move(tmp);
 }

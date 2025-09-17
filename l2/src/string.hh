@@ -12,12 +12,18 @@ class string {
     void resize_(size_t newLen);
     void readFromStream_(std::istream& is);
 
-    friend std::ostream& operator<<(std::ostream& os, const string& obj);
-    friend std::istream& operator>>(std::istream& is, string& obj);
+    friend std::ostream& operator<<(std::ostream& os, const string& obj) {
+        os << obj.dataPtr_.get();
+        return os;
+    };
+
+    friend std::istream& operator>>(std::istream& is, string& obj) {
+        obj.readFromStream_(is);
+        return is;
+    }
 
    public:
     explicit string(const char* str);
-    string(const char*&& str);
 
     string();
     string(const string& other);
@@ -26,6 +32,7 @@ class string {
     size_t getLen() const;
 
     string& operator=(const string& other);
+
     string& operator=(string&& other) noexcept;
 
     char& operator[](size_t index);
