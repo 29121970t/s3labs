@@ -2,7 +2,7 @@
 #include <iostream>
 namespace str {
 
-string::string(const char* str) : length_{0}, dataPtr_{nullptr} {
+String::String(const char* str) : length_{0}, dataPtr_{nullptr} {
     for (; str[length_]; length_++);
     ++length_;
     dataPtr_ = std::make_unique_for_overwrite<char[]>(length_);
@@ -10,50 +10,50 @@ string::string(const char* str) : length_{0}, dataPtr_{nullptr} {
 }
 
 
-string::string() : length_{2}, dataPtr_{std::make_unique<char[]>(length_)} {};
+String::String() : length_{2}, dataPtr_{std::make_unique<char[]>(length_)} {};
 
-string::string(const string& other) : length_{other.length_}, dataPtr_{std::make_unique<char[]>(length_)} {
+String::String(const String& other) : length_{other.length_}, dataPtr_{std::make_unique<char[]>(length_)} {
     std::ranges::copy(other.dataPtr_.get(), other.dataPtr_.get() + length_, dataPtr_.get());
 };
 
-string::string(string&& other) noexcept : length_{other.length_}, dataPtr_{std::move(other.dataPtr_)} {};
+String::String(String&& other) noexcept : length_{other.length_}, dataPtr_{std::move(other.dataPtr_)} {};
 
-string& string::operator=(const string& other) {
+String& String::operator=(const String& other) {
     length_ = other.length_;
     resizeD_(length_);
     std::ranges::copy(other.dataPtr_.get(), other.dataPtr_.get() + length_, dataPtr_.get());
     return *this;
 };
 
-size_t string::getLen() const { return length_; }
+size_t String::getLen() const { return length_; }
 
-string& string::operator=(string&& other) noexcept {
+String& String::operator=(String&& other) noexcept {
     length_ = other.length_;
     dataPtr_ = std::move(other.dataPtr_);
     return *this;
 };
 
-char& string::operator[](size_t index) {
+char& String::operator[](size_t index) {
     if (index >= length_) throw std::invalid_argument("Index out of range");
     return dataPtr_[index];
 }
-const char& string::operator[](size_t index) const {
+const char& String::operator[](size_t index) const {
     if (index >= length_) throw std::invalid_argument("Index out of range");
     return dataPtr_[index];
 }
 
-void string::resizeD_(size_t newLen) {
+void String::resizeD_(size_t newLen) {
     length_ = newLen;
     auto tmp = std::make_unique<char[]>(length_);
     dataPtr_ = std::move(tmp);
 }
-void string::resize_(size_t newLen) {
+void String::resize_(size_t newLen) {
     length_ = newLen;
     auto tmp = std::make_unique<char[]>(length_);
     std::ranges::copy(dataPtr_.get(), dataPtr_.get() + length_, tmp.get());
     dataPtr_ = std::move(tmp);
 }
-void string::readFromStream_(std::istream& is) {
+void String::readFromStream_(std::istream& is) {
     char tmp;
     size_t counter = 0;
     while (is.get(tmp) && tmp != '\n') {
@@ -68,7 +68,7 @@ void string::readFromStream_(std::istream& is) {
     is.clear();
 }
 
-bool operator!=(const string& str1, const string& str2) {
+bool operator!=(const String& str1, const String& str2) {
     if (str1.length_ != str2.length_) return true;
     for (size_t i = 0; i < str1.length_; i++) {
         if (str1.dataPtr_[i] != str2.dataPtr_[i]) return true;
@@ -76,6 +76,6 @@ bool operator!=(const string& str1, const string& str2) {
     return false;
 }
 
-void printString(const string& str) { std::cout << str.dataPtr_.get(); }
-void readString(string& str) { str.readFromStream_(std::cin); }
+void printString(const String& str) { std::cout << str.dataPtr_.get(); }
+void readString(String& str) { str.readFromStream_(std::cin); }
 }  // namespace str

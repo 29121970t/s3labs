@@ -3,7 +3,7 @@
 #include <memory>
 
 namespace str {
-class string {
+class String {
    private:
     size_t length_;
     std::unique_ptr<char[]> dataPtr_;
@@ -12,38 +12,38 @@ class string {
     void resize_(size_t newLen);
     void readFromStream_(std::istream& is);
 
-    friend std::ostream& operator<<(std::ostream& os, const string& obj) {
+    friend std::ostream& operator<<(std::ostream& os, const String& obj) {
         os << obj.dataPtr_.get();
         return os;
     };
 
-    friend std::istream& operator>>(std::istream& is, string& obj) {
+    friend std::istream& operator>>(std::istream& is, String& obj) {
         obj.readFromStream_(is);
         return is;
     }
 
    public:
-    explicit string(const char* str);
+    explicit String(const char* str);
 
-    string();
-    string(const string& other);
-    string(string&& other) noexcept;
+    String();
+    String(const String& other);
+    String(String&& other) noexcept;
 
     size_t getLen() const;
 
-    string& operator=(const string& other);
+    String& operator=(const String& other);
 
-    string& operator=(string&& other) noexcept;
+    String& operator=(String&& other) noexcept;
 
     char& operator[](size_t index);
     const char& operator[](size_t index) const;
 
-    auto operator<=>(const string& other) const { return length_ <=> other.length_; }
+    auto operator<=>(const String& other) const { return length_ <=> other.length_; }
 
-    friend void printString(const string& str);
-    friend void readString(string& str);
-    friend bool operator!=(const string& str1, const string& str2);
+    friend void printString(const String& str);
+    friend void readString(String& str);
+    friend bool operator!=(const String& str1, const String& str2);
 };
-void printString(const string& str);
-void readString(string& str);
+void printString(const String& str);
+void readString(String& str);
 }  // namespace str

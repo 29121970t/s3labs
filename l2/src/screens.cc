@@ -16,7 +16,7 @@ bool printMainScreen() {
     println("    4.Exit");
     return true;
 }
-bool inputStrings(str::string &str1, str::string &str2) {
+bool inputStrings(str::String &str1, str::String &str2) {
     cout << "Please enter first string:";
     cin >> str1;
     cout << "Please enter second string:";
@@ -24,12 +24,12 @@ bool inputStrings(str::string &str1, str::string &str2) {
     return true;
 
 }
-bool printStrings(const str::string &str1, const str::string &str2) {
+bool printStrings(const str::String &str1, const str::String &str2) {
     cout << "First string: " << str1 << std::endl;
     cout << "Second string: " << str2 << std::endl;
     return true;
 }
-bool checkOperators(const str::string &str1, const str::string &str2) {
+bool checkOperators(const str::String &str1, const str::String &str2) {
     println("str1 < str2: {}", str1 < str2);
     println("str1 > str2: {}", str1 > str2);
     println("str1 <= str2: {}", str1 <= str2);

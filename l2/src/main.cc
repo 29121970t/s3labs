@@ -9,10 +9,10 @@ using namespace console_utils;
 using namespace screen_handlers;
 
 int main(void) {
-    str::string str1;
-    str::string str2;
-    array<function<bool(str::string &, str::string &)>, 4> actions = {
-        inputStrings, printStrings, checkOperators, [](const str::string &, const str::string &) { return 0; }};
+    str::String str1;
+    str::String str2;
+    array<function<bool(str::String &, str::String &)>, 4> actions = {
+        inputStrings, printStrings, checkOperators, [](const str::String &, const str::String &) { return 0; }};
 
     unsigned int response;
     do {
