@@ -1,4 +1,4 @@
-# Лаболаторные работы 3 семестр
+# Лабораторные работы 3 семестр
 [Sonar cloud](https://sonarcloud.io/project/overview?id=29121970t_s3labs)
 ## **Задание 1**
 
