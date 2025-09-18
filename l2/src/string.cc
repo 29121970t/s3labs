@@ -9,7 +9,6 @@ String::String(const char* str) : length_{0}, dataPtr_{nullptr} {
     std::ranges::copy(str, str + length_, dataPtr_.get());
 }
 
-
 String::String() : length_{2}, dataPtr_{std::make_unique<char[]>(length_)} {};
 
 String::String(const String& other) : length_{other.length_}, dataPtr_{std::make_unique<char[]>(length_)} {
@@ -69,11 +68,7 @@ void String::readFromStream_(std::istream& is) {
 }
 
 bool operator!=(const String& str1, const String& str2) {
-    if (str1.length_ != str2.length_) return true;
-    for (size_t i = 0; i < str1.length_; i++) {
-        if (str1.dataPtr_[i] != str2.dataPtr_[i]) return true;
-    }
-    return false;
+    return str1.length_ != str2.length_;
 }
 
 void printString(const String& str) { std::cout << str.dataPtr_.get(); }

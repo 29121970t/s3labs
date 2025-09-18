@@ -48,6 +48,7 @@ Matrix &Matrix::resize(size_t rows, size_t cols) {
 }
 
 size_t Matrix::getRows() const { return rows_; }
+
 size_t Matrix::getCols() const { return cols_; }
 
 void Matrix::print() const {
