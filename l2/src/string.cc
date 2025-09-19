@@ -9,7 +9,7 @@ String::String(const char* str) : length_{0}, dataPtr_{nullptr} {
     std::ranges::copy(str, str + length_, dataPtr_.get());
 }
 
-String::String() : length_{2}, dataPtr_{std::make_unique<char[]>(length_)} {};
+String::String() : length_{1}, dataPtr_{std::make_unique<char[]>(length_)} {};
 
 String::String(const String& other) : length_{other.length_}, dataPtr_{std::make_unique<char[]>(length_)} {
     std::ranges::copy(other.dataPtr_.get(), other.dataPtr_.get() + length_, dataPtr_.get());
