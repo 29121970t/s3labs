@@ -15,7 +15,6 @@ void readT(T& data, const std::string& massage, CT bound) {
         std::cout << "Invalid input. Reread input requierments\n";
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), ' ');
         std::cout << massage;
     }
     std::cin.clear();
@@ -28,7 +27,6 @@ void readT(T& data, const std::string& massage) {
         std::cout << "Invalid input. Reread input requierments\n";
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), ' ');
         std::cout << massage;
     }
     std::cin.clear();
