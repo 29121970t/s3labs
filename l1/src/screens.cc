@@ -1,8 +1,8 @@
 #include <iostream>
 #include <print>
 
-#include "matrix.hh"
-#include "../../lib/consoleUtils.hh"
+#include <l1/include/matrix.hh>
+#include <consoleUtils.hh>
 
 using namespace console_utils;
 using namespace std;

@@ -1,8 +1,7 @@
+#include <consoleUtils.hh>
 #include <functional>
-
-#include "../../lib/consoleUtils.hh"
-#include "screens.hh"
-#include "string.hh"
+#include <l2/include/screens.hh>
+#include <l2/include/string.hh>
 
 using namespace std;
 using namespace console_utils;

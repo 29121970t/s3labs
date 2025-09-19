@@ -1,8 +1,8 @@
 #include <functional>
+#include <l1/include/matrix.hh>
+#include <l1/include/screens.hh>
 
-#include "../../lib/consoleUtils.hh"
-#include "matrix.hh"
-#include "screens.hh"
+#include <consoleUtils.hh>
 
 using namespace std;
 using namespace console_utils;

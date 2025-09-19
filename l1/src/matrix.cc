@@ -1,6 +1,5 @@
-#include "matrix.hh"
-
 #include <iostream>
+#include <l1/include/matrix.hh>
 #include <print>
 #include <ranges>
 #include <stdexcept>
@@ -11,7 +10,7 @@ Matrix::Matrix(size_t rows, size_t cols) : rows_{rows}, cols_{cols}, data_(new d
 
 Matrix::Matrix() : Matrix(2, 2){};
 
-Matrix::Matrix(Matrix &&other) noexcept :  rows_{other.rows_}, cols_{other.cols_}, data_{other.data_} {};
+Matrix::Matrix(Matrix &&other) noexcept : rows_{other.rows_}, cols_{other.cols_}, data_{other.data_} {};
 
 Matrix::Matrix(const Matrix &other) : Matrix(other.cols_, other.rows_) {
     std::copy(other.data_, other.data_ + cols_ * rows_, data_);
@@ -74,12 +73,12 @@ double &Matrix::getElement(size_t i, size_t j) const {
     return data_[i * cols_ + j];
 }
 
-const Matrix &Matrix::setElement(size_t i, size_t j, double el) const{
+const Matrix &Matrix::setElement(size_t i, size_t j, double el) const {
     getElement(i, j) = el;
     return *this;
 }
 
-const Matrix &Matrix::subtractFromElement(size_t i, size_t j, double val) const{
+const Matrix &Matrix::subtractFromElement(size_t i, size_t j, double val) const {
     getElement(i, j) -= val;
     return *this;
 }
