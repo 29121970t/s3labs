@@ -15,7 +15,6 @@ Matrix::Matrix(Matrix &&other) noexcept :  rows_{other.rows_}, cols_{other.cols_
 
 Matrix::Matrix(const Matrix &other) : Matrix(other.cols_, other.rows_) {
     std::copy(other.data_, other.data_ + cols_ * rows_, data_);
-
 }
 
 Matrix::Matrix(const initializer_matrix &mat) : Matrix(mat.size(), mat.begin()->size()) { copyFrom(mat); };
