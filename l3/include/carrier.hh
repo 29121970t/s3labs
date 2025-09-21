@@ -9,18 +9,19 @@ class Carrier {
    protected:
     double speed_;
     double price_per_km_;
+
    private:
-    friend std::ostream& operator<<(std::ostream& os, Carrier& carry);
+    friend std::ostream& operator<<(std::ostream& os, const Carrier& carry) {
+        os << std::format("{}: [speed: {}, price: {}]", carry.name(), carry.speed_, carry.price_per_km_) << std::endl;
+        return os;
+    }
 
    public:
     Carrier(double speed, double price_per_km);
-
-   public:
-    virtual double getTime(double distance);
-    virtual double getPrice(double distance);
-    virtual const char* name() = 0;
+    virtual double getTime(double distance) const;
+    virtual double getPrice(double distance) const;
+    virtual const char* name() const = 0;
 };
 std::ostream& operator<<(std::ostream& os, carriers::Carrier& carry);
 
 }  // namespace carriers
-

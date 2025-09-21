@@ -44,18 +44,20 @@ bool createCarrier(unique_ptr<Carrier> &carry_ptr) {
         case 3:
             carry_ptr = make_unique<Train>(speed, cost);
             break;
+        default:
+            break;
     }
-    return 1;
+    return true;
 }
-bool printCarrier(const unique_ptr<Carrier> &carry_ptr) {
-    if(!carry_ptr.get()){
+bool printCarrier(unique_ptr<Carrier> &carry_ptr) {
+    if(!carry_ptr){
         cout << "None, please create one first" << endl;
         return 1;
     }
-    cout << *carry_ptr.get();
-    return 1;
+    cout << *carry_ptr;
+    return true;
 }
-bool calculate(const unique_ptr<Carrier> &carry_ptr) {
+bool calculate(unique_ptr<Carrier> &carry_ptr) {
     if(!carry_ptr.get()){
         cout << "No carrier, please create one first" << endl;
         return 1;
@@ -65,7 +67,7 @@ bool calculate(const unique_ptr<Carrier> &carry_ptr) {
     readT(distance, "Pleaes enter distance: ");
     cout << format("time: {:.2f} cost: {:.2f}", carry.getTime(distance), carry.getPrice(distance)) << endl;
 
-    return 1;
+    return true;
 }
 
 int main(void) {

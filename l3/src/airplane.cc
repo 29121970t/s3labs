@@ -3,5 +3,5 @@
 namespace carriers
 {
     Airplane::Airplane(double speed, double price_per_km) : Carrier{speed, price_per_km} {};
-    const char* Airplane::name() { return "Airplane"; }
+    const char* Airplane::name() const { return "Airplane"; }
 } // namespace carriers

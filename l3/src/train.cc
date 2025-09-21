@@ -2,5 +2,5 @@
 namespace carriers
 {
     Train::Train(double speed, double price_per_km) : Carrier{speed, price_per_km} {};
-    const char* Train::name() { return "Train"; }
+    const char* Train::name() const { return "Train"; }
 } // namespace carriers
