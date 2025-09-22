@@ -6,7 +6,7 @@
 
 namespace carriers {
 class Carrier {
-   protected:
+   private:
     double speed_;
     double price_per_km_;
 
