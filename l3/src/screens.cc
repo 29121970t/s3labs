@@ -48,7 +48,7 @@ bool createCarrier(unique_ptr<Carrier> &carry_ptr) {
     }
     return true;
 }
-bool printCarrier(unique_ptr<const Carrier> &carry_ptr) {
+bool printCarrier(const unique_ptr<Carrier> &carry_ptr) {
     if (!carry_ptr.get()) {
         cout << "None, please create one first" << endl;
         return true;
@@ -56,7 +56,7 @@ bool printCarrier(unique_ptr<const Carrier> &carry_ptr) {
     cout << *carry_ptr.get();
     return true;
 }
-bool calculate(unique_ptr<const Carrier> &carry_ptr) {
+bool calculate(const unique_ptr<const Carrier> &carry_ptr) {
     if (!carry_ptr.get()) {
         cout << "No carrier, please create one first" << endl;
         return true;
