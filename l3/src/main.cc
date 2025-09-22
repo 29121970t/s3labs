@@ -13,7 +13,7 @@ using namespace screens;
 
 int main(void) {
     unique_ptr<Carrier> carry_ptr;
-    static array<move_only_function<bool()>, 4> actions = {
+    static array<function<bool()>, 4> actions = {
         [&carry_ptr]() { return createCarrier(carry_ptr); },
         [&carry_ptr]() { return printCarrier(carry_ptr.get()); },
         [&carry_ptr]() { return calculate(carry_ptr.get()); },
