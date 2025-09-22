@@ -22,6 +22,5 @@ class Carrier {
     virtual double getPrice(double distance) const;
     virtual const char* name() const = 0;
 };
-std::ostream& operator<<(std::ostream& os, carriers::Carrier& carry);
 
 }  // namespace carriers
