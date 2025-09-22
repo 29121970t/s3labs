@@ -1,14 +1,12 @@
 #include <consoleUtils.hh>
 #include <l3/include/airplane.hh>
 #include <l3/include/car.hh>
-#include <l3/include/carrier.hh>
-#include <l3/include/screens.hh>
 #include <l3/include/train.hh>
+#include <memory>
 #include <print>
-
-using namespace console_utils;
 using namespace std;
 using namespace carriers;
+using namespace console_utils;
 
 namespace screens {
 void printMainScreen() {
@@ -19,7 +17,7 @@ void printMainScreen() {
     println("    2.Print carrier");
     println("    3.Calculate");
     println("    4.Exit");
-}  // namespace
+}
 
 bool createCarrier(unique_ptr<Carrier> &carry_ptr) {
     unsigned int response;
@@ -48,25 +46,23 @@ bool createCarrier(unique_ptr<Carrier> &carry_ptr) {
     }
     return true;
 }
-bool printCarrier(const unique_ptr<Carrier> &carry_ptr) {
-    if (!carry_ptr.get()) {
+bool printCarrier(const Carrier *carry_ptr) {
+    if (!carry_ptr) {
         cout << "None, please create one first" << endl;
         return true;
     }
-    cout << *carry_ptr.get();
+    cout << *carry_ptr;
     return true;
 }
-bool calculate(const unique_ptr<const Carrier> &carry_ptr) {
-    if (!carry_ptr.get()) {
+bool calculate(const Carrier *carry_ptr) {
+    if (!carry_ptr) {
         cout << "No carrier, please create one first" << endl;
         return true;
     }
-    const Carrier &carry = *carry_ptr.get();
     size_t distance;
     readT(distance, "Pleaes enter distance: ");
-    cout << format("time: {:.2f} cost: {:.2f}", carry.getTime(distance), carry.getPrice(distance)) << endl;
+    cout << format("time: {:.2f} cost: {:.2f}", carry_ptr->getTime(distance), carry_ptr->getPrice(distance)) << endl;
 
     return true;
 }
-
 }  // namespace screens
