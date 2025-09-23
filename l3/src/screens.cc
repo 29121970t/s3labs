@@ -28,18 +28,17 @@ bool createCarrier(unique_ptr<Carrier> &carry_ptr) {
     println("   2. Car");
     println("   3. Train");
     readT(response, ">", [](unsigned int num) { return num > 0 && num <= 3; });
-    readT(speed, "Please enter speed (speed > 0): ", [](double num) { return num > 0; });
-    readT(cost, "Please enter cost per km: ");
+
 
     switch (response) {
         case 1:
-            carry_ptr = make_unique<Airplane>(speed, cost);
+            carry_ptr = make_unique<Airplane>();
             break;
         case 2:
-            carry_ptr = make_unique<Car>(speed, cost);
+            carry_ptr = make_unique<Car>();
             break;
         case 3:
-            carry_ptr = make_unique<Train>(speed, cost);
+            carry_ptr = make_unique<Train>();
             break;
         default:
             break;

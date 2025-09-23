@@ -2,7 +2,7 @@
 
 namespace carriers
 {
-    Car::Car(double speed, double price_per_km) : Carrier{speed, price_per_km} {};
+    Car::Car() : Carrier{defaultSpeed, defaultPricePerKm} {};
     const char* Car::name() const { return "Car"; }
 } // namespace carriers
 

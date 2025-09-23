@@ -4,7 +4,10 @@
 namespace carriers {
 class Wagon : public Carrier {
    public:
-    Wagon(double speed, double people_price_per_km_, double cargo_price_per_km_);
+    inline static const double defaultSpeed = 10;
+    inline static const double defaultPeoplePricePerKm = 0.1;
+    inline static const double defaultCargoPricePerKm = 0.05;
+    Wagon();
     const char* name() const override;
 };
 }  // namespace carriers

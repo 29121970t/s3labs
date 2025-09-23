@@ -3,7 +3,9 @@
 namespace carriers {
 class Train : public Carrier {
    public:
-    Train(double speed, double price_per_km);
+    inline static const double defaultSpeed = 120;
+    inline static const double defaultPricePerKm = 0.01;
+    Train();
     const char* name() const override;
 };
 }  // namespace carriers

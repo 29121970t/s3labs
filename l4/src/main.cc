@@ -9,11 +9,11 @@ using namespace console_utils;
 using namespace screens;
 
 int main(void) {
-    unique_ptr<carriers::Carrier> carry_ptr;
+    unique_ptr<carriers::Carrier> carryPtr;
     static array<function<bool()>, 4> actions = {
-        [&carry_ptr]() { return createCarrier(carry_ptr); },
-        [&carry_ptr]() { return printCarrier(carry_ptr.get()); },
-        [&carry_ptr]() { return calculate(carry_ptr.get()); },
+        [&carryPtr]() { return createCarrier(carryPtr); },
+        [&carryPtr]() { return printCarrier(carryPtr.get()); },
+        [&carryPtr]() { return calculate(carryPtr.get()); },
         []() { return false; },
 
     };
