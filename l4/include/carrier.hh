@@ -8,22 +8,23 @@ namespace carriers {
 class Carrier {
    private:
     double speed_;
-    double peoplePricePerKm_;
-    double cargoPricePerKm_;
+    double pricePerKm_;
+    size_t peopleCapacity_;
+    double cargoCapacity_;
 
    private:
     friend std::ostream& operator<<(std::ostream& os, const Carrier& carry) {
-        os << std::format("{}: [speed: {}, price for people: {} price for cargo: {}]", carry.name(), carry.speed_,
-                          carry.peoplePricePerKm_, carry.cargoPricePerKm_)
+        os << std::format("{}: [speed: {}, price per km: {} people capacity: {}]", carry.name(), carry.speed_,
+                          carry.pricePerKm_, carry.peopleCapacity_, carry.cargoCapacity_)
            << std::endl;
         return os;
     }
 
    public:
-    Carrier(double speed, double peoplePricePerKm, double cargoPricePerKm);
+    Carrier(double speed, double pricePerKm, size_t peopleCapacity, double cargoCapacity);
     virtual double getTime(double distance) const;
-    virtual double getPriceForPeople(double distance) const;
-    virtual double getPriceForCargo(double distance) const;
+    virtual double getPriceForPeople(double distance, size_t ammount) const;
+    virtual double getPriceForCargo(double distance, double ammount) const;
     virtual const char* name() const = 0;
 };
 

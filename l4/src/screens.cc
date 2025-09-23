@@ -19,11 +19,8 @@ void printMainScreen() {
     println("    4.Exit");
 }
 
-bool createCarrier(unique_ptr<Carrier> &carry_ptr) {
+bool createCarrier(unique_ptr<Carrier> &carryPtr) {
     unsigned int response;
-    double speed;
-    double cost_p;
-    double cost_c;
     println("What type of carrier to create?");
     println("   1. Wagon");
     println("   2. Car");
@@ -32,36 +29,42 @@ bool createCarrier(unique_ptr<Carrier> &carry_ptr) {
 
     switch (response) {
         case 1:
-            carry_ptr = make_unique<Wagon>();
+            carryPtr = make_unique<Wagon>();
             break;
         case 2:
-            carry_ptr = make_unique<Car>();
+            carryPtr = make_unique<Car>();
             break;
         case 3:
-            carry_ptr = make_unique<Bicycle>();
+            carryPtr = make_unique<Bicycle>();
             break;
         default:
             break;
     }
     return true;
 }
-bool printCarrier(const Carrier *carry_ptr) {
-    if (!carry_ptr) {
+bool printCarrier(const Carrier *carryPtr) {
+    if (!carryPtr) {
         cout << "None, please create one first" << endl;
         return true;
     }
-    cout << *carry_ptr;
+    cout << *carryPtr;
     return true;
 }
-bool calculate(const Carrier *carry_ptr) {
-    if (!carry_ptr) {
+bool calculate(const Carrier *carryPtr) {
+    if (!carryPtr) {
         cout << "No carrier, please create one first" << endl;
         return true;
     }
-    size_t distance;
+    double distance;
+    size_t numberOfPeople;
+    double cargoVolume;
     readT(distance, "Pleaes enter distance: ");
-    cout << format("time: {:.2f} price for people: {:.2f} price for cargo: {:.2f}", carry_ptr->getTime(distance),
-                   carry_ptr->getPriceForPeople(distance), carry_ptr->getPriceForCargo(distance))
+    readT(numberOfPeople, "Pleaes enter number of people: ");
+    readT(cargoVolume, "Pleaes enter cargo volume: ");
+
+
+    cout << format("time: {:.2f} price for people: {:.2f} price for cargo: {:.2f}", carryPtr->getTime(distance),
+                   carryPtr->getPriceForPeople(distance, numberOfPeople), carryPtr->getPriceForCargo(distance, cargoVolume))
          << endl;
 
     return true;

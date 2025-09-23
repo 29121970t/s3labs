@@ -21,8 +21,6 @@ void printMainScreen() {
 
 bool createCarrier(unique_ptr<Carrier> &carry_ptr) {
     unsigned int response;
-    double speed;
-    double cost;
     println("What type of carrier to create?");
     println("   1. Airplane");
     println("   2. Car");

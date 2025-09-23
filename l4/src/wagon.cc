@@ -2,6 +2,6 @@
 
 namespace carriers
 {
-    Wagon::Wagon() : Carrier(defaultSpeed, defaultPeoplePricePerKm, defaultPeoplePricePerKm) {};
+    Wagon::Wagon() : Carrier(speed, pricePerKm, seats, cargoCapacity) {};
     const char* Wagon::name() const { return "Wagon"; }
 } // namespace carriers
