@@ -36,17 +36,17 @@ bool inputVector(Vector<double> &vec) {
     vec = std::move(tmpVec);
     return true;
 }
-bool addVectors(Vector<double> &vec1, Vector<double> &vec2) {
+bool addVectors(const Vector<double> &vec1, const Vector<double> &vec2) {
     print("addition result: ");
     try {
         cout << vec1 + vec2 << endl;
-    } catch (const std::exception &e) {
+    } catch (const std::invalid_argument &e) {
         std::cerr << "Error: " << e.what() << '\n';
     }
 
     return true;
 }
-bool printVectors(Vector<double> &vec1, Vector<double> &vec2) {
+bool printVectors(const Vector<double> &vec1, const Vector<double> &vec2) {
     cout << vec1 << endl;
     cout << vec2 << endl;
     return true;

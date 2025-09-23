@@ -11,7 +11,7 @@ class Vector {
    private:
     constexpr static const size_t kGrowthFacror = 2;
     size_t size_;
-    size_t used_;
+    size_t used_ = 0;
     std::unique_ptr<T[]> data_;
 
    private:
@@ -23,6 +23,15 @@ class Vector {
         os << "]";
         return os;
     }
+    friend Vector operator+(const Vector &vec1, const Vector &vec2) {
+        if (vec1.used_ != vec2.used_) throw std::invalid_argument("Vector lengths mismatch");
+        Vector res(vec1.used_);
+        for (size_t i = 0; i < vec1.used_; i++) {
+            res.pushBack(vec1.data_[i] + vec2.data_[i]);
+        }
+        return res;
+    }
+
     void shift() {
         auto tmpList = std::make_unique_for_overwrite<T[]>(size_);
         std::copy(data_.get(), data_.get() + used_, tmpList.get() + 1);
@@ -37,8 +46,8 @@ class Vector {
     }
 
    public:
-    Vector() : size_{0}, used_{0}, data_{nullptr} {};
-    Vector(size_t length) : size_{length}, used_{0}, data_{std::make_unique<T[]>(size_)} {}
+    Vector() : size_{0}, data_{nullptr} {};
+    explicit Vector(size_t length) : size_{length}, data_{std::make_unique<T[]>(size_)} {}
     Vector(const std::initializer_list<T> &&list)
         : size_{list.size()}, used_{size_}, data_{std::make_unique_for_overwrite<T[]>(size_)} {
         if (size_ == 0) throw std::invalid_argument("empty initializer_list");
@@ -91,15 +100,6 @@ class Vector {
         used_++;
         return *this;
     }
-    Vector operator+(const Vector &other) {
-        if(used_ != other.used_) throw std::invalid_argument("Vector lengths mismatch");
-        Vector res(used_);
-        for (size_t i = 0; i < used_; i++)
-        {
-            res.pushBack(data_[i] + other.data_[i]);
-        }
-        return res;        
-    }
 };
 
-}  // namespace vector
+}  // namespace vec
