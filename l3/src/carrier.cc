@@ -5,9 +5,7 @@ Carrier::Carrier(double speed, double price_per_km) : speed_{speed}, price_per_k
     if (speed_ <= 0) throw std::invalid_argument("speed should be > 0");
 }
 
-// add amount into account
 double Carrier::getTime(double distance) const { return distance / speed_; }
-// add amount into account
 double Carrier::getPrice(double distance) const { return distance * price_per_km_; }
 
 }  // namespace carriers
