@@ -14,7 +14,7 @@ class Carrier {
 
    private:
     friend std::ostream& operator<<(std::ostream& os, const Carrier& carry) {
-        os << std::format("{}: [speed: {}, price per km: {} people capacity: {}]", carry.name(), carry.speed_,
+        os << std::format("{}: [speed: {}, price per km: {}, people capacity: {}, cargo capacity: {}]", carry.name(), carry.speed_,
                           carry.pricePerKm_, carry.peopleCapacity_, carry.cargoCapacity_)
            << std::endl;
         return os;

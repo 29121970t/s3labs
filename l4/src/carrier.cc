@@ -11,7 +11,7 @@ Carrier::Carrier(double speed, double pricePerKm, size_t peopleCapacity, double 
 
 double Carrier::getTime(double distance) const { return distance / speed_; }
 double Carrier::getPriceForPeople(double distance, size_t ammount) const {
-    return ceil(ammount / peopleCapacity_) * distance * pricePerKm_;
+    return ceil(static_cast<double>(ammount) / peopleCapacity_) * distance * pricePerKm_;
 }
 double Carrier::getPriceForCargo(double distance, double ammount) const {
     return ceil(ammount / cargoCapacity_) * distance * pricePerKm_;

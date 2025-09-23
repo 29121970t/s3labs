@@ -63,7 +63,7 @@ bool calculate(const Carrier *carryPtr) {
     readT(cargoVolume, "Pleaes enter cargo volume: ");
 
 
-    cout << format("time: {:.2f} price for people: {:.2f} price for cargo: {:.2f}", carryPtr->getTime(distance),
+    cout << format("time: {:.2f}, price for people: {:.2f}, price for cargo: {:.2f}", carryPtr->getTime(distance),
                    carryPtr->getPriceForPeople(distance, numberOfPeople), carryPtr->getPriceForCargo(distance, cargoVolume))
          << endl;
 
