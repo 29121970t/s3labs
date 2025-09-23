@@ -57,7 +57,6 @@ class Vector {
         copy(other.data_.get(), other.data_.get() + size_, data_.get());
     }
     Vector(Vector &&other) noexcept : size_{other.size_}, used_{size_}, data_{std::move(other.data_)} {};
-    ~Vector() = default;
 
     Vector &operator=(const Vector &other) {
         size_ = other.size_;
