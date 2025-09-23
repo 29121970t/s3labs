@@ -11,7 +11,7 @@ using namespace console_utils;
 namespace screens {
 void printMainScreen() {
     auto [cols, rows] = getConsoleDimensions();
-    println("{:^{}}", "\x{1B}[48;5;35mLab 3\x{1B}[0m", cols);
+    println("{:^{}}", "\x{1B}[48;5;35mLab 4\x{1B}[0m", cols);
     println("Please select action:\n");
     println("    1.Create carrier");
     println("    2.Print carrier");
