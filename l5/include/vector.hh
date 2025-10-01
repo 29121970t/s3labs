@@ -81,12 +81,12 @@ class Vector {
         return *this;
     }
     void erase(size_t index) {
-        if(index >= used_) throw std::invalid_argument("Index out of range");
+        if(index >= used_) return;
         T *data = data_.get();
         std::copy(data + index + 1, data + used_, data + index);
         used_--;
     }
-    size_t count(){
+    size_t count() const{
         return used_;
     }
 };

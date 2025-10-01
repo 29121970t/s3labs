@@ -2,10 +2,11 @@
 #include <format>
 #include <iostream>
 #include <limits>
+#include <exception>
 namespace console_utils {
 
 std::pair<int, int> getConsoleDimensions();
-
+struct invalid_input_error : public std::exception {};
 template <typename T, typename CT>
 void readT(T& data, const std::string& massage, CT bound) {
     std::cout << massage;
@@ -14,7 +15,7 @@ void readT(T& data, const std::string& massage, CT bound) {
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-        throw std::runtime_error("Invalid input.");
+        throw invalid_input_error();
     }
 }
 template <typename T>
@@ -24,7 +25,7 @@ void readT(T& data, const std::string& massage) {
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     if (std::cin.fail()) {
         std::cin.clear();
-        throw std::runtime_error("Invalid input.");
+        throw invalid_input_error();
     }
 }
 }  // namespace console_utils

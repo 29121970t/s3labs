@@ -38,6 +38,9 @@ class String {
 
     char& operator[](size_t index);
     const char& operator[](size_t index) const;
+    const char * getRaw() const{
+        return dataPtr_.get();
+    }
 
     auto operator<=>(const String& other) const { return length_ <=> other.length_; }
 

@@ -1,15 +1,15 @@
+#include <chrono>
 #include <l7/include/flight.hh>
-
 namespace flight {
 vec::Vector<Flight *> Flight::instanses_;
 size_t Flight::counter_ = 0;
 
-Flight::Flight(str::String destination, time_t departureTime, time_t arrivalTime, bus_types::BusType type)
-    : destination_{std::move(destination)},
-      departureTime_{departureTime},
-      arrivalTime_{arrivalTime},
+Flight::Flight(str::String destination, time_t departureTime, time_t arrivalTime, BusType type)
+    : number_{++counter_},
       type_{type},
-      number_{++counter_} {
+      destination_{std::move(destination)},
+      departureTime_{departureTime},
+      arrivalTime_{arrivalTime} {
     instanses_.pushBack(this);
 };
 Flight::~Flight() {
@@ -26,18 +26,12 @@ vec::Vector<Flight *> Flight::getByDepartureTime(time_t departureTime) {
     }
     return vec;
 }
-std::string Flight::dump() {
+std::string Flight::dump() const {
     std::stringstream stream;
-    stream << "flight: {\nnumber: " << number_
-           << "\n"
-              "type code: "
-           << type_
-           << "\n"
-              "destination: "
-           << destination_
-           << "\n"
-              "departure time: "
-           << std::ctime(&departureTime_) << "arrival time: " << std::ctime(&arrivalTime_) << "}\n";
+    std::chrono::time_point tp = std::chrono::system_clock::from_time_t(departureTime_);
+
+    stream << std::format("flight: [\nnumber: {}\ntype code: {}\ndestination: {}\n departure time: {:%m.%d: %H:%M}]",
+                          number_, static_cast<int>(type_), destination_.getRaw(), tp);
     return stream.str();
 };
 }  // namespace flight

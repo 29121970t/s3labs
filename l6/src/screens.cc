@@ -25,18 +25,13 @@ bool createCarrier(unique_ptr<Carrier> &carry_ptr) {
     println("   1. Airplane");
     println("   2. Car");
     println("   3. Train");
-    try
-    {
+    try {
         readT(response, ">", [](unsigned int num) { return num > 0 && num <= 3; });
-    }
-    catch(const std::runtime_error& e)
-    {
-        std::cerr << e.what() << '\n';
-        
+    } catch (const console_utils::invalid_input_error &) {
+        std::cerr << "Invalid input" << '\n';
+
         return true;
     }
-    
-    
 
     switch (response) {
         case 1:
@@ -67,17 +62,13 @@ bool calculate(const Carrier *carry_ptr) {
         return true;
     }
     size_t distance;
-    try
-    {
+    try {
         readT(distance, "Pleaes enter distance: ");
-    }
-    catch(const std::runtime_error& e)
-    {
-        std::cerr << e.what() << '\n';
+    } catch (const console_utils::invalid_input_error &) {
+        std::cerr << "Invalid input" << '\n';
         return true;
     }
-    
-    
+
     cout << format("time: {:.2f} cost: {:.2f}", carry_ptr->getTime(distance), carry_ptr->getPrice(distance)) << endl;
 
     return true;
