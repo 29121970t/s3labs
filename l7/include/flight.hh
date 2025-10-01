@@ -17,7 +17,7 @@ class Flight {
    private:
     static vec::Vector<Flight *> instanses_;
     static size_t counter_;
-    size_t number_;
+    size_t number_ = ++counter_;
     BusType type_;
     str::String destination_;
     time_t departureTime_;
@@ -35,6 +35,7 @@ class Flight {
 
    public:
     Flight(str::String destination, time_t departureTime, time_t arrivalTime, BusType type = BusType::TRANSIT);
+    Flight(const char destination[], time_t departureTime, time_t arrivalTime, BusType type = BusType::TRANSIT);
     Flight(Flight &) = delete;
 
     ~Flight();

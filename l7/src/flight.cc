@@ -1,17 +1,20 @@
 #include <chrono>
+#include <utility> 
 #include <l7/include/flight.hh>
 namespace flight {
 vec::Vector<Flight *> Flight::instanses_;
 size_t Flight::counter_ = 0;
 
 Flight::Flight(str::String destination, time_t departureTime, time_t arrivalTime, BusType type)
-    : number_{++counter_},
-      type_{type},
+    : type_{type},
       destination_{std::move(destination)},
       departureTime_{departureTime},
       arrivalTime_{arrivalTime} {
     instanses_.pushBack(this);
 };
+Flight::Flight(const char destination[], time_t departureTime, time_t arrivalTime, BusType type)
+    : Flight(str::String(destination), departureTime, arrivalTime, type){};
+
 Flight::~Flight() {
     size_t index;
     for (index = 0; instanses_[index] != this; ++index);
@@ -31,7 +34,7 @@ std::string Flight::dump() const {
     std::chrono::time_point tp = std::chrono::system_clock::from_time_t(departureTime_);
 
     stream << std::format("flight: [\nnumber: {}\ntype code: {}\ndestination: {}\n departure time: {:%m.%d: %H:%M}]",
-                          number_, static_cast<int>(type_), destination_.getRaw(), tp);
+                          number_, std::to_underlying(type_), destination_.getRaw(), tp);
     return stream.str();
 };
 }  // namespace flight

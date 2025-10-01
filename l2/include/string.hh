@@ -1,5 +1,5 @@
 #pragma once
-
+#include <type_traits>
 #include <memory>
 
 namespace str {
@@ -23,7 +23,7 @@ class String {
     }
 
    public:
-    String(const char str[]);
+    String(const char* str);
 
     String();
     String(const String& other);

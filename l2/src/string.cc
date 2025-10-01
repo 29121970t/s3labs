@@ -1,13 +1,13 @@
-#include <l2/include/screens.hh>
 #include <iostream>
+#include <l2/include/screens.hh>
 #include <limits>
 namespace str {
-String::String(const char str[]) {
-        for (; str[length_]; length_++);
-        ++length_;
-        dataPtr_ = std::make_unique_for_overwrite<char[]>(length_);
-        std::ranges::copy(str, str + length_, dataPtr_.get());
-    }
+String::String(const char* str) {
+    for (; str[length_]; length_++);
+    ++length_;
+    dataPtr_ = std::make_unique_for_overwrite<char[]>(length_);
+    std::ranges::copy(str, str + length_, dataPtr_.get());
+}
 
 String::String() : length_{1}, dataPtr_{std::make_unique<char[]>(length_)} {};
 
@@ -67,9 +67,7 @@ void String::readFromStream_(std::istream& is) {
     dataPtr_[counter] = '\0';
 }
 
-bool operator!=(const String& str1, const String& str2) {
-    return str1.length_ != str2.length_;
-}
+bool operator!=(const String& str1, const String& str2) { return str1.length_ != str2.length_; }
 
 void printString(const String& str) { std::cout << str.dataPtr_.get(); }
 void readString(String& str) { str.readFromStream_(std::cin); }
