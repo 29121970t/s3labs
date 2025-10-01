@@ -25,11 +25,13 @@ class Flight {
 
     // rewrite
     friend std::ostream &operator<<(std::ostream &os, const Flight &obj) {
-        os.write(reinterpret_cast<const char *>(&obj), sizeof(obj));
+        auto ptr = reinterpret_cast<const char *>(&obj);
+        os.write(ptr, sizeof(obj));
         return os;
     };
     friend std::istream &operator>>(std::istream &is, Flight &obj) {
-        is.read(reinterpret_cast<char *>(&obj), sizeof(obj));
+        auto ptr = reinterpret_cast<char *>(&obj);
+        is.read(ptr, sizeof(obj));
         return is;
     };
 

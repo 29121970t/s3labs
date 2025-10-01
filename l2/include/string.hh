@@ -23,12 +23,12 @@ class String {
     }
 
    public:
-    String(const char* str);
+    explicit String(const char* str);
 
     String();
     String(const String& other);
     String(String&& other) noexcept;
-
+    ~String(){}
     size_t getLen() const;
 
     String& operator=(const String& other);
