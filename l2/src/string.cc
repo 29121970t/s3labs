@@ -1,5 +1,6 @@
 #include <l2/include/screens.hh>
 #include <iostream>
+#include <limits>
 namespace str {
 
 String::String(const char* str) : length_{0}, dataPtr_{nullptr} {
@@ -55,6 +56,7 @@ void String::resize_(size_t newLen) {
 void String::readFromStream_(std::istream& is) {
     char tmp;
     size_t counter = 0;
+    is.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     while (is.get(tmp) && tmp != '\n') {
         if (counter >= length_ - 1) {
             resize_(length_ * 2);
@@ -64,7 +66,6 @@ void String::readFromStream_(std::istream& is) {
     }
     resize_(counter + 1);
     dataPtr_[counter] = '\0';
-    is.clear();
 }
 
 bool operator!=(const String& str1, const String& str2) {

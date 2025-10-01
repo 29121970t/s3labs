@@ -18,6 +18,7 @@ class Carrier {
 
    public:
     Carrier(double speed, double pricePerKm);
+    virtual ~Carrier() = default;
     virtual double getTime(double distance) const;
     virtual double getPrice(double distance) const;
     virtual const char* name() const = 0;

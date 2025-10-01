@@ -23,7 +23,8 @@ class String {
     }
 
    public:
-    explicit String(const char* str);
+    String(const char* str);
+
 
     String();
     String(const String& other);

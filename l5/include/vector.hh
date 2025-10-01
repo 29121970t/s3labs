@@ -80,6 +80,15 @@ class Vector {
         used_++;
         return *this;
     }
+    void erase(size_t index) {
+        if(index >= used_) throw std::invalid_argument("Index out of range");
+        T *data = data_.get();
+        std::copy(data + index + 1, data + used_, data + index);
+        used_--;
+    }
+    size_t count(){
+        return used_;
+    }
 };
 
 }  // namespace vec
