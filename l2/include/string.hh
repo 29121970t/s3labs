@@ -23,8 +23,7 @@ class String {
     }
 
    public:
-    String(const char* str);
-
+    String(const char str[]);
 
     String();
     String(const String& other);
@@ -38,9 +37,7 @@ class String {
 
     char& operator[](size_t index);
     const char& operator[](size_t index) const;
-    const char * getRaw() const{
-        return dataPtr_.get();
-    }
+    const char* getRaw() const { return dataPtr_.get(); }
 
     auto operator<=>(const String& other) const { return length_ <=> other.length_; }
 

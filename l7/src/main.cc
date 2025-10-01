@@ -31,14 +31,12 @@
 //     time_t t = time(nullptr);
 //     Flight fl{"Hawai", t, t};
 //     Flight fl2{"Hrodno", t, time(nullptr)};
-//     Flight fl3{"Ulupinsk", time(nullptr) + 1, time(nullptr)};
-
+    // flight::Flight fl3{"Ulupinsk", time(nullptr) + 1, time(nullptr)};
 //     auto vecc = Flight::getByDepartureTime(t);
 //     std::ifstream in("test.bin", ios::binary);
 //     std::ofstream out("test.bin", ios::binary);
 //     out << fl2;
 //     in >> fl2;
 //     cout << fl2.dump();
-
 //     return 0;
 // }

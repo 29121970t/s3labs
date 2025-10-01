@@ -2,13 +2,12 @@
 #include <iostream>
 #include <limits>
 namespace str {
-
-String::String(const char* str) : length_{0}, dataPtr_{nullptr} {
-    for (; str[length_]; length_++);
-    ++length_;
-    dataPtr_ = std::make_unique_for_overwrite<char[]>(length_);
-    std::ranges::copy(str, str + length_, dataPtr_.get());
-}
+String::String(const char str[]) {
+        for (; str[length_]; length_++);
+        ++length_;
+        dataPtr_ = std::make_unique_for_overwrite<char[]>(length_);
+        std::ranges::copy(str, str + length_, dataPtr_.get());
+    }
 
 String::String() : length_{1}, dataPtr_{std::make_unique<char[]>(length_)} {};
 
