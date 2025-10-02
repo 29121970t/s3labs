@@ -16,41 +16,30 @@ class BusService {
     time_t arrivalTime_;
 
     friend std::ostream &operator<<(std::ostream &os, const BusService &obj) {
-        os << obj.number_;
-        os << std::to_underlying(obj.type_);
-        os << obj.destination_.getRaw();
-        os << obj.departureTime_;
-        os << obj.arrivalTime_;
+        os.write(reinterpret_cast<const std::istream::char_type *>(&obj.number_), sizeof(obj.number_));
+        os.write(reinterpret_cast<const std::istream::char_type *>(&obj.type_), sizeof(obj.type_));
+
+        size_t destinationLen = obj.destination_.getLen();
+        os.write(reinterpret_cast<const std::istream::char_type *>(&destinationLen), sizeof(destinationLen));
+        os.write(obj.destination_.getRaw(), destinationLen);
+
+        os.write(reinterpret_cast<const std::istream::char_type *>(&obj.departureTime_), sizeof(obj.departureTime_));
+        os.write(reinterpret_cast<const std::istream::char_type *>(&obj.arrivalTime_), sizeof(obj.arrivalTime_));
         return os;
-        // os.write(reinterpret_cast<const char *>(&obj.number_), sizeof(obj.number_));
-        // os.write(reinterpret_cast<const char *>(&obj.type_), sizeof(obj.type_));
-        // size_t destinationLen = obj.destination_.getLen();
-        // os.write(reinterpret_cast<const char *>(&destinationLen), sizeof(destinationLen));
-        // os.write(obj.destination_.getRaw(), destinationLen);
-        // os.write(reinterpret_cast<const char *>(&obj.departureTime_), sizeof(obj.departureTime_));
-        // os.write(reinterpret_cast<const char *>(&obj.arrivalTime_), sizeof(obj.arrivalTime_));
-        // return os;
     };
     friend std::istream &operator>>(std::istream &is, BusService &obj) {
-        std::underlying_type<BusType>::type tmpType;
-        is >> obj.number_;
-        is >> tmpType;
-        is >> obj.destination_;
-        is >> obj.departureTime_;
-        is >> obj.arrivalTime_;
-        obj.type_ = static_cast<BusType>(tmpType);
-        return is;
+        is.read(reinterpret_cast<std::istream::char_type *>(&obj.number_), sizeof(obj.number_));
+        is.read(reinterpret_cast<std::istream::char_type *>(&obj.type_), sizeof(obj.type_));
 
-        // is.read(reinterpret_cast<char *>(&obj.number_), sizeof(obj.number_));
-        // is.read(reinterpret_cast<char *>(&obj.type_), sizeof(obj.type_));
-        // size_t destinationLen;
-        // is.read(reinterpret_cast<char *>(&destinationLen), sizeof(destinationLen));
-        // auto destination = std::make_unique_for_overwrite<char[]>(destinationLen);
-        // is.read(destination.get(), destinationLen);
-        // obj.destination_ = str::String(destination.get());
-        // is.read(reinterpret_cast<char *>(&obj.departureTime_), sizeof(obj.departureTime_));
-        // is.read(reinterpret_cast<char *>(&obj.arrivalTime_), sizeof(obj.arrivalTime_));
-        // return is;
+        size_t destinationLen;
+        is.read(reinterpret_cast<std::istream::char_type *>(&destinationLen), sizeof(destinationLen));
+        auto destination = std::make_unique_for_overwrite<char[]>(destinationLen);
+        is.read(destination.get(), destinationLen);
+        obj.destination_ = str::String(destination.get());
+        
+        is.read(reinterpret_cast<std::istream::char_type *>(&obj.departureTime_), sizeof(obj.departureTime_));
+        is.read(reinterpret_cast<std::istream::char_type *>(&obj.arrivalTime_), sizeof(obj.arrivalTime_));
+        return is;
     };
 
    public:
@@ -65,7 +54,7 @@ class BusService {
     BusService &operator=(BusService &other) = delete;
 
     static vec::Vector<BusService *> getByDepartureTime(time_t departureTime);
-    static const std::string getTypeString(BusType type);
+    static std::string getTypeString(BusType type);
     std::string dump() const;
 };
 

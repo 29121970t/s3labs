@@ -36,7 +36,7 @@ Vector<BusService *> BusService::getByDepartureTime(time_t departureTime) {
     }
     return vec;
 }
-const std::string BusService::getTypeString(BusType type) {
+std::string BusService::getTypeString(BusType type) {
     static const array<std::string, to_underlying(BusType::TYPE_COUNT)> strings = {"Transit", "Double deck",
                                                                                        "Mini bus"};
     return strings[std::to_underlying(type)];
