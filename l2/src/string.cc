@@ -16,7 +16,9 @@ String::String() : length_{1}, dataPtr_{make_unique<char[]>(length_)} {};
 String::String(const String& other) : length_{other.length_}, dataPtr_{make_unique<char[]>(length_)} {
     ranges::copy(other.dataPtr_.get(), other.dataPtr_.get() + length_, dataPtr_.get());
 };
-
+String::String(String&& other) : length_{other.length_}, dataPtr_{make_unique_for_overwrite<char[]>(length_)} {
+    dataPtr_ = std::move(other.dataPtr_);
+};
 
 String& String::operator=(const String& other) {
     length_ = other.length_;
@@ -24,9 +26,13 @@ String& String::operator=(const String& other) {
     ranges::copy(other.dataPtr_.get(), other.dataPtr_.get() + length_, dataPtr_.get());
     return *this;
 };
+String& String::operator=(String&& other) {
+    length_ = other.length_;
+    dataPtr_ = std::move(other.dataPtr_);
+    return *this;
+};
 
 size_t String::getLen() const { return length_; }
-
 
 char& String::operator[](size_t index) {
     if (index >= length_) throw invalid_argument("Index out of range");

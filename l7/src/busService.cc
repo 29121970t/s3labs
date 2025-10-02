@@ -37,9 +37,10 @@ Vector<BusService *> BusService::getByDepartureTime(time_t departureTime) {
     return vec;
 }
 const char *BusService::getTypeString(BusType type) {
-    static const char strings[][30] = {"Transit", "Double deck", "Mini bus"};
+    static const array<char[30], to_underlying(BusType::TYPE_COUNT)> strings = {"Transit", "Double deck",
+                                                                                       "Mini bus"};
     return strings[std::to_underlying(type)];
-}
+}   
 std::string BusService::dump() const {
     using namespace std::chrono;
 

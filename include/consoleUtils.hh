@@ -3,6 +3,7 @@
 #include <iostream>
 #include <limits>
 #include <iomanip>
+#include <chrono>
 namespace console_utils {
 
 
@@ -45,10 +46,10 @@ void readT(T& data, const std::string& message, CT validator, const std::string&
     std::cin.clear();
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
-template <typename T = tm, typename CT = const char *>
-void readT(tm &data,  const char * massage, const char * format) {
+template <typename T = std::chrono::sys_seconds, typename CT = const char * >
+void readT(std::chrono::sys_seconds &data,  const char * massage, const char * format) {
     std::cout << massage;
-    while (((std::cin >> std::get_time(&data, format)).fail())) {
+    while ((std::cin >> std::chrono::parse(format, data)).fail()) {
         std::cout << "Invalid input. Reread input requierments\n";
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');

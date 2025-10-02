@@ -1,6 +1,6 @@
 #pragma once
-#include <type_traits>
 #include <memory>
+#include <type_traits>
 
 namespace str {
 class String {
@@ -27,9 +27,12 @@ class String {
 
     String();
     String(const String& other);
+    String(String&& other);
+    ~String() { dataPtr_.release(); }
     size_t getLen() const;
 
     String& operator=(const String& other);
+    String& operator=(String&& other);
 
     char& operator[](size_t index);
     const char& operator[](size_t index) const;

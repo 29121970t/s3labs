@@ -36,7 +36,7 @@ int main(void) {
     unsigned int response;
     do {
         printMainScreen();
-        readT(response, ">", [](unsigned int num) { return num > 0 && num <= 3; });
+        readT(response, ">", [](unsigned int numb) { return numb > 0 && numb <= 3; });
         cout << "\x{1B}[2J\x{1B}[H\n";
     } while (actions[response - 1]());
     in.close();
