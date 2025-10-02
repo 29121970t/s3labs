@@ -47,7 +47,7 @@ class Vector {
 
    public:
     Vector() : size_{0}, data_{nullptr} {};
-    explicit Vector(size_t length) : size_{length}, data_{std::make_unique<T[]>(size_)} {}
+    explicit Vector(size_t length) : size_{length}, used_{length}, data_{std::make_unique<T[]>(size_)} {}
     Vector(const std::initializer_list<T> &&list)
         : size_{list.size()}, used_{size_}, data_{std::make_unique_for_overwrite<T[]>(size_)} {
         if (size_ == 0) throw std::invalid_argument("empty initializer_list");
@@ -81,14 +81,12 @@ class Vector {
         return *this;
     }
     void erase(size_t index) {
-        if(index >= used_) return;
+        if (index >= used_) return;
         T *data = data_.get();
         std::copy(data + index + 1, data + used_, data + index);
         used_--;
     }
-    size_t count() const{
-        return used_;
-    }
+    size_t count() const { return used_; }
 };
 
 }  // namespace vec

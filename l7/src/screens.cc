@@ -1,12 +1,14 @@
 #include <consoleUtils.hh>
+#include <ctime>
+#include <iomanip>
 #include <l5/include/vector.hh>
-#include <limits>
-#include <memory>
+#include <l7/include/busService.hh>
 #include <print>
-#include <sstream>
 
 using namespace std;
 using namespace vec;
+using namespace str;
+using namespace bus_service;
 using namespace console_utils;
 
 namespace screens {
@@ -14,41 +16,29 @@ void printMainScreen() {
     auto [cols, rows] = getConsoleDimensions();
     println("{:^{}}", "\x{1B}[48;5;35mLab 5\x{1B}[0m", cols);
     println("Please select action:\n");
-    println("    1.Input first vector");
-    println("    2.Input second vector");
-    println("    3.Print vectors");
-    println("    4.Add");
-    println("    5.Exit");
+    println("    1.Print bus services");
+    println("    2.Find service by departure time");
+    println("    3.Exit");
 }
-
-bool inputVector(Vector<double> &vec) {
-    string line;
-    print("Please enter vector (numbers separated by spaces): ");
-    getline(std::cin, line);
-    istringstream iss(line);
-    double num;
-    vec::Vector<double> tmpVec;
-    while (iss >> num) {
-        tmpVec.pushBack(num);
+bool printFlights(vec::Vector<BusService> &vec) {
+    for (size_t i = 0, count = vec.count(); i < count; ++i) {
+        cout << vec[i].dump() << endl;
     }
-    cin.clear();
-    cout << tmpVec;
-    vec = std::move(tmpVec);
     return true;
 }
-bool addVectors(const Vector<double> &vec1, const Vector<double> &vec2) {
-    print("addition result: ");
-    try {
-        cout << vec1 + vec2 << endl;
-    } catch (const std::invalid_argument &e) {
-        std::cerr << "Error: " << e.what() << '\n';
+bool getByDepartureTime() {
+    String str;
+    tm timePoint = {};
+    readT(timePoint, "Please enter time in DD-MM-YYYY HH:MM UTC+3 format: ", "%d-%m-%Y %H:%M");  
+    time_t departure = std::mktime(&timePoint) - timezone;
+    auto vec = BusService::getByDepartureTime(departure);
+    print("Found {} Buses:\n", vec.count());
+    for (size_t i = 0, count = vec.count(); i < count; ++i)
+    {
+        cout << vec[i]->dump() << endl;
     }
-
-    return true;
-}
-bool printVectors(const Vector<double> &vec1, const Vector<double> &vec2) {
-    cout << vec1 << endl;
-    cout << vec2 << endl;
+    cout << endl;
+    
     return true;
 }
 }  // namespace screens

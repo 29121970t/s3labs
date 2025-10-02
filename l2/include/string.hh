@@ -27,17 +27,13 @@ class String {
 
     String();
     String(const String& other);
-    String(String&& other) noexcept;
-    ~String(){}
     size_t getLen() const;
 
     String& operator=(const String& other);
 
-    String& operator=(String&& other) noexcept;
-
     char& operator[](size_t index);
     const char& operator[](size_t index) const;
-    const char* getRaw() const { return dataPtr_.get(); }
+    const char* getRaw() const;
 
     auto operator<=>(const String& other) const { return length_ <=> other.length_; }
 

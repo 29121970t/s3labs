@@ -1,9 +1,9 @@
 #pragma once
 #include <memory>
-#include "vector.hh"
+#include <l5/include/vector.hh>
+#include "busService.hh"
 namespace screens {
 void printMainScreen();
-bool inputVector(vec::Vector<double> &vec);
-bool addVectors(const vec::Vector<double> &vec1,const vec::Vector<double> &vec2);
-bool printVectors(const vec::Vector<double> &vec1,const vec::Vector<double> &vec2);
+bool printFlights(vec::Vector<bus_service::BusService> &vec);
+bool getByDepartureTime();
 }  // namespace screens
