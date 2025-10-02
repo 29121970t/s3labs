@@ -40,7 +40,7 @@ std::string BusService::dump() const {
     time_point tp1 = system_clock::from_time_t(departureTime_);
     time_point tp2 = system_clock::from_time_t(arrivalTime_);
     stream << std::format(
-        "flight: [number: {}, type: {}, destination: {}, departure time: {:%d-%m-%Y %H:%M}, arrival time: "
+        "Bus: [number: {}, type: {}, destination: {}, departure time: {:%d-%m-%Y %H:%M}, arrival time: "
         "{:%d-%m-%Y %H:%M}]",
         number_, getTypeString(type_), destination_.getRaw(), tp1, tp2);
     return stream.str();

@@ -15,7 +15,7 @@ using namespace console_utils;
 namespace screens {
 void printMainScreen() {
     auto [cols, rows] = getConsoleDimensions();
-    println("{:^{}}", "\x{1B}[48;5;35mLab 5\x{1B}[0m", cols);
+    println("{:^{}}", "\x{1B}[48;5;35mLab 7\x{1B}[0m", cols);
     println("Please select action:\n");
     println("    1.Print bus services");
     println("    2.Find service by departure time");

@@ -5,9 +5,6 @@
 #include <utility>
 namespace bus_service {
 enum class BusType { TRANSIT = 0, DOUBLEDECK, MINIBUS, TYPE_COUNT };
-struct plainData{
-
-};
 class BusService {
    private:
     size_t number_;
