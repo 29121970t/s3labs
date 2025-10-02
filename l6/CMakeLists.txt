@@ -12,7 +12,7 @@ include_directories(../)
 include_directories(../include)
 add_executable(main src/main.cc)
 add_library(scrHandlers STATIC src/screens.cc)
-add_library(consoleUtils src/throwingConsoleUtils.cc)
+add_library(consoleUtils ../lib/consoleUtils.cc)
 add_library(carriers ../l3/src/carrier.cc ../l3/src/airplane.cc ../l3/src/car.cc ../l3/src/train.cc)
 
 target_link_libraries(main scrHandlers carriers consoleUtils carriers)

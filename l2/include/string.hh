@@ -27,12 +27,12 @@ class String {
 
     String();
     String(const String& other);
-    String(String&& other);
+    String(String&& other) noexcept;
     ~String() { dataPtr_.release(); }
     size_t getLen() const;
 
     String& operator=(const String& other);
-    String& operator=(String&& other);
+    String& operator=(String&& other) noexcept;
 
     char& operator[](size_t index);
     const char& operator[](size_t index) const;
