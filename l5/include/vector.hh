@@ -27,7 +27,7 @@ class Vector {
         if (vec1.used_ != vec2.used_) throw std::invalid_argument("Vector lengths mismatch");
         Vector res(vec1.used_);
         for (size_t i = 0; i < vec1.used_; i++) {
-            res.pushBack(vec1.data_[i] + vec2.data_[i]);
+            res[i] = vec1.data_[i] + vec2.data_[i];
         }
         return res;
     }

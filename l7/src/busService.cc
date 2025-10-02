@@ -5,7 +5,6 @@
 using namespace vec;
 using namespace std;
 namespace bus_service {
-vec::Vector<BusService *> BusService::instanses_;
 
 BusService::BusService() : BusService("UNKNOWN", 0, 0, 0){};
 BusService::BusService(const str::String &destination, time_t departureTime, time_t arrivalTime, size_t number,
@@ -14,33 +13,26 @@ BusService::BusService(const str::String &destination, time_t departureTime, tim
       type_{type},
       destination_{destination},
       departureTime_{departureTime},
-      arrivalTime_{arrivalTime} {
-    instanses_.pushBack(this);
-};
+      arrivalTime_{arrivalTime} {};
 BusService::BusService(const char destination[], time_t departureTime, time_t arrivalTime, size_t number, BusType type)
     : BusService(str::String(destination), departureTime, arrivalTime, number, type){};
 
-BusService::~BusService() {
-    size_t index;
-    for (index = 0; instanses_[index] != this; ++index);
-    instanses_.erase(index);
-}
-Vector<BusService *> BusService::getByDepartureTime(time_t departureTime) {
-    Vector<BusService *> vec;
-    for (size_t i = 0, count = instanses_.count(); i < count; ++i) {
-        time_t epsilon = instanses_[i]->departureTime_ > departureTime ? instanses_[i]->departureTime_ - departureTime
-                                                                       : departureTime - instanses_[i]->departureTime_;
+Vector<BusService const *> BusService::getByDepartureTime(time_t departureTime, Vector<BusService> &vec) {
+    Vector<BusService const *> res;
+    for (size_t i = 0, count = vec.count(); i < count; ++i) {
+        time_t epsilon = vec[i].departureTime_ > departureTime ? vec[i].departureTime_ - departureTime
+                                                                : departureTime - vec[i].departureTime_;
         if (epsilon <= 60) {
-            vec.pushBack(instanses_[i]);
+            res.pushBack(&vec[i]);
         }
     }
-    return vec;
+    return res;
 }
 std::string BusService::getTypeString(BusType type) {
     static const array<std::string, to_underlying(BusType::TYPE_COUNT)> strings = {"Transit", "Double deck",
-                                                                                       "Mini bus"};
+                                                                                   "Mini bus"};
     return strings[std::to_underlying(type)];
-}   
+}
 std::string BusService::dump() const {
     using namespace std::chrono;
 

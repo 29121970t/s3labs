@@ -5,5 +5,5 @@
 namespace screens {
 void printMainScreen();
 bool printFlights(vec::Vector<bus_service::BusService> &vec);
-bool getByDepartureTime();
+bool getByDepartureTime(vec::Vector<bus_service::BusService> &vec);
 }  // namespace screens

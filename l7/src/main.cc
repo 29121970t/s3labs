@@ -13,7 +13,7 @@ using namespace bus_service;
 
 int main(void) {
     auto tp = std::chrono::system_clock::now();
-    time_t time =   std::chrono::system_clock::to_time_t(tp);
+    time_t time = std::chrono::system_clock::to_time_t(tp);
     ofstream out("data.bin", std::ios::binary);
     if (!out.is_open()) {
         cout << "Cannot create data file" << endl;
@@ -39,7 +39,7 @@ int main(void) {
     vec::Vector<BusService> vec{num};
     static array<function<bool()>, 4> actions = {
         [&vec]() { return printFlights(vec); },
-        []() { return getByDepartureTime(); },
+        [&vec]() { return getByDepartureTime(vec); },
         []() { return false; },
     };
 

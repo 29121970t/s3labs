@@ -5,10 +5,11 @@
 #include <utility>
 namespace bus_service {
 enum class BusType { TRANSIT = 0, DOUBLEDECK, MINIBUS, TYPE_COUNT };
+struct plainData{
 
+};
 class BusService {
    private:
-    static vec::Vector<BusService *> instanses_;
     size_t number_;
     BusType type_;
     str::String destination_;
@@ -36,7 +37,7 @@ class BusService {
         auto destination = std::make_unique_for_overwrite<char[]>(destinationLen);
         is.read(destination.get(), destinationLen);
         obj.destination_ = str::String(destination.get());
-        
+
         is.read(reinterpret_cast<std::istream::char_type *>(&obj.departureTime_), sizeof(obj.departureTime_));
         is.read(reinterpret_cast<std::istream::char_type *>(&obj.arrivalTime_), sizeof(obj.arrivalTime_));
         return is;
@@ -50,10 +51,9 @@ class BusService {
                BusType type = BusType::TRANSIT);
     BusService(BusService &) = delete;
 
-    ~BusService();
     BusService &operator=(BusService &other) = delete;
 
-    static vec::Vector<BusService *> getByDepartureTime(time_t departureTime);
+    static vec::Vector<BusService const *> getByDepartureTime(time_t departureTime, vec::Vector<BusService> &vec);
     static std::string getTypeString(BusType type);
     std::string dump() const;
 };

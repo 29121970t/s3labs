@@ -27,12 +27,12 @@ bool printFlights(vec::Vector<BusService> &vec) {
     }
     return true;
 }
-bool getByDepartureTime() {
+bool getByDepartureTime(Vector<BusService> &buses) {
     String str;
     std::chrono::sys_seconds timePoint = {};
     readT(timePoint, "Please enter time in DD-MM-YYYY HH:MM UTC+3 format: ", "%d-%m-%Y %H:%M");  
     time_t departure = std::chrono::system_clock::to_time_t(timePoint);
-    auto vec = BusService::getByDepartureTime(departure);
+    auto vec = BusService::getByDepartureTime(departure, buses);
     print("Found {} Buses:\n", vec.count());
     for (size_t i = 0, count = vec.count(); i < count; ++i)
     {
