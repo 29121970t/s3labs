@@ -13,13 +13,13 @@ void printMainScreen() {
     auto [cols, rows] = getConsoleDimensions();
     println("{:^{}}", "\x{1B}[48;5;35mLab 6\x{1B}[0m", cols);
     println("Please select action:\n");
-    println("    1.Create carrier");
-    println("    2.Print carrier");
-    println("    3.Calculate");
-    println("    4.Exit");
+    println("    1. Create carrier");
+    println("    2. Print carrier");
+    println("    3. Calculate");
+    println("    4. Exit");
 }
 
-bool createCarrier(unique_ptr<Carrier> &carry_ptr) {
+bool createCarrier(unique_ptr<Carrier> &carry_pt) {
     unsigned int response;
     println("What type of carrier to create?");
     println("   1. Airplane");
@@ -35,29 +35,29 @@ bool createCarrier(unique_ptr<Carrier> &carry_ptr) {
 
     switch (response) {
         case 1:
-            carry_ptr = make_unique<Airplane>();
+            carry_pt = make_unique<Airplane>();
             break;
         case 2:
-            carry_ptr = make_unique<Car>();
+            carry_pt = make_unique<Car>();
             break;
         case 3:
-            carry_ptr = make_unique<Train>();
+            carry_pt = make_unique<Train>();
             break;
         default:
             break;
     }
     return true;
 }
-bool printCarrier(const Carrier *carry_ptr) {
-    if (!carry_ptr) {
+bool printCarrier(const Carrier *carry_pt) {
+    if (!carry_pt) {
         cout << "None, please create one first" << endl;
         return true;
     }
-    cout << *carry_ptr;
+    cout << *carry_pt;
     return true;
 }
-bool calculate(const Carrier *carry_ptr) {
-    if (!carry_ptr) {
+bool calculate(const Carrier *carry_pt) {
+    if (!carry_pt) {
         cout << "No carrier, please create one first" << endl;
         return true;
     }
@@ -69,7 +69,7 @@ bool calculate(const Carrier *carry_ptr) {
         return true;
     }
 
-    cout << format("time: {:.2f} cost: {:.2f}", carry_ptr->getTime(distance), carry_ptr->getPrice(distance)) << endl;
+    cout << format("time: {:.2f} cost: {:.2f}", carry_pt->getTime(distance), carry_pt->getPrice(distance)) << endl;
 
     return true;
 }
