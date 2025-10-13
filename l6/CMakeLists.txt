@@ -6,16 +6,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED YES)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/cmake/TWin.cmake)
-enable_testing()
+
 include_directories(../)
 include_directories(../include)
-add_executable(main src/main.cc)
-add_library(scrHandlers STATIC src/screens.cc)
-add_library(consoleUtils ../lib/consoleUtils.cc)
-add_library(carriers ../l3/src/carrier.cc ../l3/src/airplane.cc ../l3/src/car.cc ../l3/src/train.cc)
+add_executable(l6 src/main.cc)
+add_library(scrHandlersL6 STATIC src/screens.cc)
+add_library(consoleUtilsL6 ../lib/consoleUtils.cc)
+add_library(carriersL6 ../l3/src/carrier.cc ../l3/src/airplane.cc ../l3/src/car.cc ../l3/src/train.cc)
 
-target_link_libraries(main scrHandlers carriers consoleUtils carriers)
-if(CMAKE_SYSTEM_NAME STREQUAL Windows)
-    target_link_options(main PRIVATE -static)
-endif()
+target_link_libraries(l6 scrHandlersL6 carriersL6 consoleUtilsL6 carriersL6)
+

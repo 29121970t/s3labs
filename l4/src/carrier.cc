@@ -8,7 +8,7 @@ Carrier::Carrier(double speed, double pricePerKm, size_t peopleCapacity, double 
     if (peopleCapacity_ <= 0) throw std::invalid_argument("people capacity should be > 0");
     if (cargoCapacity_ <= 0) throw std::invalid_argument("cargo capacity should be > 0");
 }
-
+Carrier::~Carrier() = default;
 double Carrier::getTime(double distance) const { return distance / speed_; }
 double Carrier::getPriceForPeople(double distance, size_t ammount) const {
     return ceil(static_cast<double>(ammount) / peopleCapacity_) * distance * pricePerKm_;

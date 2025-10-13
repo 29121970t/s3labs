@@ -6,15 +6,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED YES)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/cmake/TWin.cmake)
-enable_testing()
+
 include_directories(../)
 include_directories(../include)
-add_executable(main src/main.cc)
-add_library(scrHandlers STATIC src/screens.cc)
-add_library(consoleUtils ../lib/consoleUtils.cc)
+add_executable(l5 src/main.cc)
+add_library(scrHandlersL5 STATIC src/screens.cc)
+add_library(consoleUtilsL5 ../lib/consoleUtils.cc)
 
-target_link_libraries(main scrHandlers consoleUtils )
-if(CMAKE_SYSTEM_NAME STREQUAL Windows)
-    target_link_options(main PRIVATE -static)
-endif()
+target_link_libraries(l5 scrHandlersL5 consoleUtilsL5 )
+

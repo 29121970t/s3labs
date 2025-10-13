@@ -22,6 +22,7 @@ class Carrier {
 
    public:
     Carrier(double speed, double pricePerKm, size_t peopleCapacity, double cargoCapacity);
+    virtual ~Carrier();
     virtual double getTime(double distance) const;
     virtual double getPriceForPeople(double distance, size_t ammount) const;
     virtual double getPriceForCargo(double distance, double ammount) const;
