@@ -11,7 +11,7 @@ Iter find(Iter begin, Iter end, U& data) {
     return begin;
 }
 
-template <typename ForwardIterator>
+template <std::input_iterator ForwardIterator>
 void bubbleSort(ForwardIterator first, ForwardIterator last) {
     if (first == last) {
         return;
