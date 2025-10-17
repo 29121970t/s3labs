@@ -30,15 +30,18 @@ class Iterator  {
     using reference = value_type&;
 
     friend Iterator<T, !isConst>;
-    Iterator(){}
+    Iterator() = default;
+    explicit Iterator(const Iterator& other) = default;
     explicit Iterator(ListNode<T>* anchorPtr, ListNode<T>* current, size_t round)
         : anchorPtr_{anchorPtr}, current_{current}, round_{round} {}
     explicit Iterator(ListNode<T>* current) : anchorPtr_{current}, current_{current} {}
+
     template<bool WasConst, class = std::enable_if_t<isConst || !WasConst>>
     Iterator(const Iterator<T, WasConst>& rhs) : anchorPtr_{rhs.anchorPtr_}, current_{rhs.current_} {}
-    explicit Iterator(const Iterator& other) = default;
+
     dataType& operator*() const { return this->current_->data_; }
     dataType* operator->() { return &(this->current_->data_); }
+
     friend bool operator==(const Iterator& lhs, const Iterator& rhs)  { return lhs.current_ == rhs.current_ && lhs.round_ == rhs.round_; }
 
     Iterator& operator--() {
@@ -67,5 +70,5 @@ class Iterator  {
     }
     
 };
-static_assert(std::forward_iterator<Iterator<int, false>>);
+static_assert(std::bidirectional_iterator<Iterator<int, false>>);
 }  // namespace list_bits

@@ -3,7 +3,7 @@
 
 #include "list.hh"
 namespace cList {
-template <typename U, typename Iter = CircleList<U>::iterator>
+template <typename U, std::forward_iterator Iter>
 Iter find(Iter begin, Iter end, U& data) {
     for (; begin != end; ++begin) {
         if (*begin == data) break;
@@ -11,12 +11,11 @@ Iter find(Iter begin, Iter end, U& data) {
     return begin;
 }
 
-template <std::input_iterator ForwardIterator>
+template <std::forward_iterator ForwardIterator>
 void bubbleSort(ForwardIterator first, ForwardIterator last) {
     if (first == last) {
         return;
     }
-
     bool swapped;
     do {
         swapped = false;
