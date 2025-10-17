@@ -1,66 +1,209 @@
 #pragma once
+#include <execution>
+#include <iostream>
 #include <memory>
-namespace {
-template <typename T>
-class Node {
-   private:
-    Node *next_, *prev_;
-    T data_;
 
-   public:
-    Node(T &data, Node *next = nullptr, Node *prev = nullptr) : data_{data}, next_{next}, prev_{prev} {};
-    Node(T &&data, Node *next = nullptr, Node *prev = nullptr) : data_{std::move(data)}, next_{next}, prev_{prev} {};
-
-    ~Node() = default;
-    Node(Node &) = default;
-    Node(Node &&) = default;
-
-    Node &operator=(Node &) = default;
-    Node &operator=(Node &&) = default;
-
-    Node &linkFront(Node &next) {
-        this->next_ = &next;
-        next.prev_ = this;
-        return next;
-    }
-};
-}  // namespace
-
-template <typename T, typename alloc_t = std::allocator<T>>
+#include "list_bits.hh"
+namespace cList
+{
+    
+template <typename T, typename Allocator = std::allocator<list_bits::ListNode<T>>>
 class CircleList {
    private:
+    using Node = list_bits::ListNode<T>;
     size_t size_;
-    std::allocator<T> allocator_{};
-    std::unique_ptr<Node<T>> ring_ptr_;
+    Allocator allocator_{};
+    Node* ringPtr_;
+    Node* pool_;
+    
+
    public:
-    CircleList() : size_{0}, ring_ptr_{nullptr} {}
-    CircleList(size_t size) : size_{size}, ring_ptr_{static_cast<* Node<T>>(allocator_.allocate(sizeof(Node<T>)))} {
-        
+    using alocator_type = Allocator;
+    using value_type = T;
+    using reference = CircleList&;
+    using pointer = CircleList*;
+    using allocTraits_ = std::allocator_traits<Allocator>;
+    using iterator = list_bits::Iterator<T, false>;
+    using const_iterator = list_bits::Iterator<T, true>;
+
+
+
+    friend std::ostream& operator<<(std::ostream& os, const CircleList& obj) {
+        os << '[';
+        for (size_t i = 0; i < obj.size_; i++) {
+            os << obj[i] << " ";
+        }
+        os << ']';
+
+        return os;
     }
 
-    ~CircleList(){};
-    // CircleList(CircleList &);
-    // CircleList(CircleList &&);
+    friend auto operator<=>(const CircleList& lhs, const CircleList& rhs) { return lhs.size_ <=> rhs.size_; }
+    friend bool operator==(const CircleList& lhs, const CircleList& rhs) {
+        if (lhs.size_ != rhs.size_) return false;
+        for (size_t i = 0; i < lhs.size_; i++) {
+            if (lhs[i] != rhs[i]) return false;
+        }
+        return true;
+    }
 
-    // CircleList &operator=(CircleList &);
-    // CircleList &operator=(CircleList &&);
+   public:
+    CircleList() : size_{0}, ringPtr_{nullptr} {}
+    CircleList(size_t size) : size_{size}, ringPtr_{allocator_.allocate(1)} {
+        allocTraits_::construct(allocator_, ringPtr_);
+        if (size_ == 0) return;
+        Node* current = ringPtr_;
+        for (size_t i = 1; i < size_; ++i) {
+            Node* newNode = allocator_.allocate(1);
+            allocTraits_::construct(allocator_, newNode);
+            current->next_ = newNode;
+            newNode->prev_ = current;
+            current = newNode;
+        }
+    }
+    ~CircleList() { erase(); };
+    CircleList(CircleList& other) : size_{other.size_}, ringPtr_{allocator_.allocate(1)} {
+        allocTraits_::construct(allocator_, ringPtr_, other[0]);
+        if (size_ == 0) {
+            ringPtr_->next_ = ringPtr_;
+            ringPtr_->prev_ = ringPtr_;
+        }
+        Node* current = ringPtr_;
+        for (size_t i = 1; i < size_; ++i) {
+            Node* newNode = allocator_.allocate(1);
+            allocTraits_::construct(allocator_, newNode, other[i]);
+            current->next_ = newNode;
+            newNode->prev_ = current;
+            current = newNode;
+        }
+        ringPtr_->prev_ = current;
+        current->next_ = ringPtr_;
+    }
+    CircleList(CircleList&& other) : size_{other.size_}, ringPtr_{other.ringPtr_} { other.ringPtr_ = nullptr; }
 
-    // bool isEmpty();
-    // size_t size();
-    // void swap(CircleList &, CircleList &);
-    // void pushFront(T &);
-    // void pushBack(T &);
-    // void pushFront(T &&);
-    // void pushBack(T &&);
-    // T popFront();
-    // T popBack();
-    // auto operator<=>(CircleList &);
-    // bool operator==(CircleList &);
+    CircleList& operator=(CircleList& other) {
+        *this = CircleList(other);
+        return *this;
+    }
+    CircleList& operator=(CircleList&& other) {
+        size_ = other.size_;
+        allocator_ = std::move(other.allocator_);
+        ringPtr_ = other.ringPtr_;
+        other.ringPtr_ = nullptr;
+        return *this;
+    }
 
-    // // begin, end
+    bool isEmpty() { return size_ == 0; }
+    size_t size() { return size_; }
+    CircleList& swap(CircleList& other) {
+        CircleList tmp{std::move(other)};
+        other = std::move(*this);
+        *this = std::move(tmp);
+        return *this;
+    }
+    void pushFront(T& data) {
+        pushBack(data);
+        if (size_ != 1) {
+            ringPtr_ = ringPtr_->prev_;
+        }
+    }
+    void pushBack(T& data) {
+        Node* tmpPtr = allocator_.allocate(1);
+        allocTraits_::construct(allocator_, tmpPtr, data);
+        if (size_ != 0) {
+            tmpPtr->next_ = ringPtr_;
+            tmpPtr->prev_ = ringPtr_->prev_;
+            ringPtr_->prev_->next_ = tmpPtr;
+            ringPtr_->prev_ = tmpPtr;
+        } else {
+            ringPtr_ = tmpPtr;
+            ringPtr_->next_ = ringPtr_;
+            ringPtr_->prev_ = ringPtr_;
+        }
+        size_++;
+    }
+    void pushFront(T&& data) {
+        pushBack(std::move(data));
+        if (size_ != 1) {
+            ringPtr_ = ringPtr_->prev_;
+        }
+    }
 
-    // void insert(T &);
-    // void insert(T &&);
-    // void erace(size_t);
-    // void clear();
+    void pushBack(T&& data) {
+        Node* tmpPtr = allocator_.allocate(1);
+        allocTraits_::construct(allocator_, tmpPtr, std::move(data));
+        if (size_ != 0) {
+            tmpPtr->next_ = ringPtr_;
+            tmpPtr->prev_ = ringPtr_->prev_;
+            ringPtr_->prev_->next_ = tmpPtr;
+            ringPtr_->prev_ = tmpPtr;
+        } else {
+            ringPtr_ = tmpPtr;
+            ringPtr_->next_ = ringPtr_;
+            ringPtr_->prev_ = ringPtr_;
+        }
+        size_++;
+    }
+
+    T popFront() {
+        ringPtr_ = ringPtr_->next_;
+        return popBack();
+    }
+    T popBack() {
+        if (size_ == 0) throw std::runtime_error("Circle list is empty");
+        Node* tmpPtr = ringPtr_->prev_;
+
+        ringPtr_->prev_ = tmpPtr->prev_;
+        tmpPtr->prev_->next_ = ringPtr_;
+
+        T data = tmpPtr->data_;
+        allocTraits_::destroy(allocator_, tmpPtr);
+        return data;
+    }
+
+    T& operator[](const size_t index) const {
+        Node* tmp = ringPtr_;
+        for (size_t i = 0, count = index % size_; i < count; i++) {
+            tmp = tmp->next_;
+        }
+        return tmp->data_;
+    }
+    const T& operator[](const size_t index, const int) const {
+        Node* tmp = ringPtr_;
+        for (size_t i = 0, count = index % size_; i < count; i++) {
+            tmp = tmp->next_;
+        }
+        return tmp->data_;
+    }
+    void insert(const size_t index, T& data) {
+        if (index >= size_) throw std::invalid_argument("Index out of range");
+        this->operator[](index) = data;
+    }
+    void insert(const size_t index, T&& data) {
+        this->operator[](index) = std::move(data);
+    }
+    T& at(size_t index){
+        if (index >= size_) throw std::invalid_argument("Index out of range");
+        return this->operator[](index);
+    }
+    const T& at(size_t index, int){
+        if (index >= size_) throw std::invalid_argument("Index out of range");
+        return this->operator[](index);
+    }
+
+    iterator begin() { return iterator(ringPtr_); }
+    iterator end() { return iterator(ringPtr_, ringPtr_, 1); }
+
+    void erase() {
+        if (!ringPtr_) return;
+        Node* current = ringPtr_;
+        for (size_t i = 0; i < size_; i++) {
+            Node* tmp = current->next_;
+            allocTraits_::destroy(allocator_, current);
+            allocator_.deallocate(current, 1);
+            current = tmp;
+        }
+        size_ = 0;
+    };
 };
+} // namespace cList

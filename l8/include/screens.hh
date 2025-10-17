@@ -1,9 +1,13 @@
 #pragma once
+#include <l8/include/list.hh>
 #include <memory>
-#include <l5/include/vector.hh>
-#include "busService.hh"
+
 namespace screens {
 void printMainScreen();
-bool printFlights(vec::Vector<bus_service::BusService> &vec);
-bool getByDepartureTime(vec::Vector<bus_service::BusService> &vec);
+bool inputList(cList::CircleList<double> &list);
+bool addElement(cList::CircleList<double> &list);
+bool clearList(cList::CircleList<double> &list);
+bool sortList(cList::CircleList<double> &list);
+bool findElement(cList::CircleList<double> &list);
+bool printList(cList::CircleList<double> &list);
 }  // namespace screens

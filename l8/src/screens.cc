@@ -1,45 +1,64 @@
 #include <consoleUtils.hh>
-#include <ctime>
-#include <iomanip>
-#include <l5/include/vector.hh>
-#include <l7/include/busService.hh>
+#include <l8/include/list.hh>
+#include <l8/include/list_algorithm.hh>
 #include <print>
-#include <chrono>
 
 using namespace std;
-using namespace vec;
-using namespace str;
-using namespace bus_service;
+
 using namespace console_utils;
 
 namespace screens {
 void printMainScreen() {
     auto [cols, rows] = getConsoleDimensions();
-    println("{:^{}}", "\x{1B}[48;5;35mLab 7\x{1B}[0m", cols);
+    println("{:^{}}", "\x{1B}[48;5;35mLab 8\x{1B}[0m", cols);
     println("Please select action:\n");
-    println("    1.Print bus services");
-    println("    2.Find service by departure time");
-    println("    3.Exit");
+    println("    1.Input List");
+    println("    2.Add element");
+    println("    3.Clear List");
+    println("    4.Sort List");
+    println("    5.Find element");
+    println("    6.Print list");
+    println("    7.Exit");
 }
-bool printFlights(vec::Vector<BusService> &vec) {
-    for (size_t i = 0, count = vec.count(); i < count; ++i) {
-        cout << vec[i].dump() << endl;
+bool inputList(cList::CircleList<double> &list) {
+    list.erase();
+    size_t num;
+    readT(num, "Plese enter list length:", [](size_t number) { return number > 0; }, "Number should be > 0");
+    for (size_t i = 0; i < num; i++) {
+        double data;
+        readT(data, "Plese enter list element:");
+        list.pushBack(data);
     }
     return true;
 }
-bool getByDepartureTime(Vector<BusService> &buses) {
-    String str;
-    std::chrono::sys_seconds timePoint = {};
-    readT(timePoint, "Please enter time in DD-MM-YYYY HH:MM UTC+3 format: ", "%d-%m-%Y %H:%M");  
-    time_t departure = std::chrono::system_clock::to_time_t(timePoint);
-    auto vec = BusService::getByDepartureTime(departure, buses);
-    print("Found {} Buses:\n", vec.count());
-    for (size_t i = 0, count = vec.count(); i < count; ++i)
-    {
-        cout << vec[i]->dump() << endl;
+bool addElement(cList::CircleList<double> &list) {
+    double data;
+    readT(data, "Plese enter list element:");
+    list.pushBack(data);
+    return true;
+}
+bool clearList(cList::CircleList<double> &list) {
+    list.erase();
+    return true;
+}
+bool sortList(cList::CircleList<double> &list) {
+    cList::bubbleSort(list.begin(), list.end());
+    return true;
+}
+bool findElement(cList::CircleList<double> &list) {
+    double data;
+    readT(data, "Plese enter list element:");
+    auto res = cList::find(list.begin(), list.end(), data);
+    if (res == list.end()) {
+        std::cout << "No such element\n";
+    } else {
+        std::cout << "List contains element\n";
     }
-    cout << endl;
-    
+    return true;
+}
+bool printList(cList::CircleList<double> &list) {
+    std::cout << list << '\n';
+
     return true;
 }
 }  // namespace screens
