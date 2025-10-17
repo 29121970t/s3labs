@@ -12,6 +12,7 @@ class CircleList {
    private:
     using Node = list_bits::ListNode<T>;
     size_t size_;
+    [[no_unique_address]]
     Allocator allocator_{};
     Node* ringPtr_;
     Node* pool_;
@@ -49,7 +50,7 @@ class CircleList {
 
    public:
     CircleList() : size_{0}, ringPtr_{nullptr} {}
-    CircleList(size_t size) : size_{size}, ringPtr_{allocator_.allocate(1)} {
+    explicit CircleList(size_t size) : size_{size}, ringPtr_{allocator_.allocate(1)} {
         allocTraits_::construct(allocator_, ringPtr_);
         if (size_ == 0) return;
         Node* current = ringPtr_;
@@ -79,13 +80,13 @@ class CircleList {
         ringPtr_->prev_ = current;
         current->next_ = ringPtr_;
     }
-    CircleList(CircleList&& other) : size_{other.size_}, ringPtr_{other.ringPtr_} { other.ringPtr_ = nullptr; }
+    CircleList(CircleList&& other) noexcept : size_{other.size_}, ringPtr_{other.ringPtr_} { other.ringPtr_ = nullptr; }
 
     CircleList& operator=(CircleList& other) {
         *this = CircleList(other);
         return *this;
     }
-    CircleList& operator=(CircleList&& other) {
+    CircleList& operator=(CircleList&& other) noexcept {
         size_ = other.size_;
         allocator_ = std::move(other.allocator_);
         ringPtr_ = other.ringPtr_;
@@ -93,9 +94,9 @@ class CircleList {
         return *this;
     }
 
-    bool isEmpty() { return size_ == 0; }
-    size_t size() { return size_; }
-    CircleList& swap(CircleList& other) {
+    bool isEmpty() const { return size_ == 0; }
+    size_t size() const { return size_; }
+    CircleList& swap(CircleList& other) noexcept {
         CircleList tmp{std::move(other)};
         other = std::move(*this);
         *this = std::move(tmp);
@@ -150,7 +151,7 @@ class CircleList {
         return popBack();
     }
     T popBack() {
-        if (size_ == 0) throw std::runtime_error("Circle list is empty");
+        if (size_ == 0) throw std::length_error("Circle list is empty");
         Node* tmpPtr = ringPtr_->prev_;
 
         ringPtr_->prev_ = tmpPtr->prev_;

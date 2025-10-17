@@ -9,5 +9,5 @@ bool addElement(cList::CircleList<double> &list);
 bool clearList(cList::CircleList<double> &list);
 bool sortList(cList::CircleList<double> &list);
 bool findElement(cList::CircleList<double> &list);
-bool printList(cList::CircleList<double> &list);
+bool printList(const cList::CircleList<double> &list);
 }  // namespace screens

@@ -1,21 +1,23 @@
 #include <iostream>
-
+#include <iterator>
 namespace list_bits {
 template <typename T>
 struct ListNode {
    public:
-    ListNode *prev_, *next_;
+    ListNode *prev_ = nullptr;
+    ListNode *next_ = nullptr;
     T data_;
-    ListNode() : prev_{nullptr}, next_{nullptr}, data_{T()} {}
-    ListNode(T& data) : prev_{nullptr}, next_{nullptr}, data_{data} {}
-    ListNode(T& data, ListNode* prev, ListNode* next) : prev_{prev}, next_{next}, data_{data} {}
-    ListNode(T&& data) : prev_{nullptr}, next_{nullptr}, data_{std::move(data)} {}
+    ListNode() :  data_{T()} {}
+    ListNode(T& data) :  data_{data} {}
+    explicit ListNode(T& data, ListNode* prev, ListNode* next) : prev_{prev}, next_{next}, data_{data} {}
+    explicit ListNode(T&& data) : prev_{nullptr}, next_{nullptr}, data_{std::move(data)} {}
     ListNode(T&& data, ListNode* prev, ListNode* next) : prev_{prev}, next_{next}, data_{std::move(data)} {}
 };
 template <typename T, bool isConst>
 class Iterator {
-   protected:
-    ListNode<T>*anchorPtr_, *current_;
+   private:
+    ListNode<T>*anchorPtr_;
+    ListNode<T> *current_;
     size_t round_ = 0;
     using dataType = std::conditional_t<isConst, const T, T>;
 
@@ -37,7 +39,7 @@ class Iterator {
     dataType& operator*() { return this->current_->data_; }
     dataType* operator->() { return &(this->current_->data_); }
     friend bool operator==(const Iterator& lhs, const Iterator& rhs)  { return lhs.current_ == rhs.current_ && lhs.round_ == rhs.round_; }
-    bool operator!=(Iterator& other) const { return current_ != other.current_ || round_ != other.round_; }
+
     Iterator& operator--() {
         this->current_ = this->current_->prev_;
         if (this->current_ == this->anchorPtr_) {

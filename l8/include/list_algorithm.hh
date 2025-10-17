@@ -3,26 +3,12 @@
 
 #include "list.hh"
 namespace cList {
-template <class U>
-CircleList<U>::const_iterator find(typename CircleList<U>::iterator begin,
-                                   typename CircleList<U>::iterator end, U& data) {
+template <typename U, typename Iter = CircleList<U>::iterator>
+Iter find(Iter begin, Iter end, U& data) {
     for (; begin != end; ++begin) {
         if (*begin == data) break;
     }
     return begin;
-}
-template <typename T>
-void swap(typename CircleList<T>::iterator a, typename CircleList<T>::iterator b) {
-    typename CircleList<T>::iterator t = a;
-    *a = *b;
-    *b = t;
-}
-
-template<typename Iter>
-void print(const Iter& beg, const Iter& end)
-{
-    std::for_each(beg, end, [](auto& i) { std::cout << i << " "; });
-    std::cout << std::endl;
 }
 
 template <typename ForwardIterator>
