@@ -23,7 +23,7 @@ void printMainScreen() {
 bool inputList(cList::CircleList<double> &list) {
     list.erase();
     size_t num;
-    readT(num, "Plese enter list length:", [](size_t number) { return number > 0; }, "Number should be > 0");
+    readT(num, "Plese enter list length:", [](size_t number) { return number > 0; }, "Number should be > 0\n");
     for (size_t i = 0; i < num; i++) {
         double data;
         readT(data, "Plese enter list element:");

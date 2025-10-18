@@ -14,7 +14,7 @@ class CircleList {
     size_t size_;
     [[no_unique_address]]
     Allocator allocator_{};
-    Node* ringPtr_;
+    Node* ringPtr_ = nullptr;
 
    public:
     using alocator_type = Allocator;
@@ -46,9 +46,9 @@ class CircleList {
     }
 
    public:
-    CircleList() : size_{0}, ringPtr_{nullptr} {}
+    CircleList() : size_{0} {}
     
-    explicit CircleList(size_t size) : size_{size}, ringPtr_{nullptr} {
+    explicit CircleList(size_t size) : size_{size} {
         if (size_ == 0) return;
         ringPtr_ = allocator_.allocate(1);
         allocTraits_::construct(allocator_, ringPtr_);
