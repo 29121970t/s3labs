@@ -16,16 +16,14 @@ class CircleList {
     Allocator allocator_{};
     Node* ringPtr_;
 
-    
-
    public:
     using alocator_type = Allocator;
     using value_type = T;
     using reference = CircleList&;
     using pointer = CircleList*;
     using allocTraits_ = std::allocator_traits<Allocator>;
-    using iterator = list_bits::Iterator<T, false>;
-    using const_iterator = list_bits::Iterator<T, true>;
+    using iterator = list_bits::Iterator<T>;
+    using const_iterator = list_bits::Iterator<const T>;
 
 
 
