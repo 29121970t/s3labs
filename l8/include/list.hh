@@ -33,7 +33,6 @@ class CircleList {
             os << obj[i] << " ";
         }
         os << ']';
-
         return os;
     }
 
@@ -49,9 +48,10 @@ class CircleList {
    public:
     CircleList() : size_{0}, ringPtr_{nullptr} {}
     
-    explicit CircleList(size_t size) : size_{size}, ringPtr_{allocator_.allocate(1)} {
-        allocTraits_::construct(allocator_, ringPtr_);
+    explicit CircleList(size_t size) : size_{size}, ringPtr_{nullptr} {
         if (size_ == 0) return;
+        ringPtr_ = allocator_.allocate(1);
+        allocTraits_::construct(allocator_, ringPtr_);
         Node* current = ringPtr_;
         for (size_t i = 1; i < size_; ++i) {
             Node* newNode = allocator_.allocate(1);
@@ -64,7 +64,7 @@ class CircleList {
     ~CircleList() { erase(); };
     CircleList(CircleList& other) : size_{other.size_}, ringPtr_{allocator_.allocate(1)} {
         allocTraits_::construct(allocator_, ringPtr_, other[0]);
-        if (size_ == 0) {
+        if (size_ == 1) {
             ringPtr_->next_ = ringPtr_;
             ringPtr_->prev_ = ringPtr_;
         }
