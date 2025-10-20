@@ -48,8 +48,9 @@ bool sortList(cList::CircleList<double> &list) {
 bool findElement(cList::CircleList<double> &list) {
     double data;
     readT(data, "Plese enter list element:");
-    
-    if (auto res = cList::find(list.begin(), list.end(), data); res == list.end()) {
+    auto a = cList::find(list.begin(), list.end(), data);
+    auto b = list.end();
+    if (a == b) {
         std::cout << "No such element\n";
     } else {
         std::cout << "List contains element\n";
@@ -58,7 +59,6 @@ bool findElement(cList::CircleList<double> &list) {
 }
 bool printList(const cList::CircleList<double> &list) {
     std::cout << list << '\n';
-
     return true;
 }
 }  // namespace screens

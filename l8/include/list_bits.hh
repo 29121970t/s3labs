@@ -4,20 +4,20 @@ namespace list_bits {
 template <typename T>
 struct ListNode {
    public:
-    ListNode *prev_ = nullptr;
-    ListNode *next_ = nullptr;
+    ListNode* prev_ = nullptr;
+    ListNode* next_ = nullptr;
     T data_;
-    ListNode() :  data_{T()} {}
-    explicit ListNode(T& data) :  data_{data} {}
+    ListNode() : data_{T()} {}
+    explicit ListNode(T& data) : data_{data} {}
     explicit ListNode(T& data, ListNode* prev, ListNode* next) : prev_{prev}, next_{next}, data_{data} {}
     explicit ListNode(T&& data) : data_{std::move(data)} {}
     ListNode(T&& data, ListNode* prev, ListNode* next) : prev_{prev}, next_{next}, data_{std::move(data)} {}
 };
 template <typename T>
-class Iterator  {
+class Iterator {
    private:
-    ListNode<T>*anchorPtr_;
-    ListNode<T> *current_;
+    ListNode<T>* anchorPtr_;
+    ListNode<T>* current_;
     size_t round_ = 0;
 
    public:
@@ -34,13 +34,16 @@ class Iterator  {
         : anchorPtr_{anchorPtr}, current_{current}, round_{round} {}
     explicit Iterator(ListNode<T>* current) : anchorPtr_{current}, current_{current} {}
 
-    template <typename U> requires (!std::is_const_v<U>)
-    Iterator(const Iterator<U>& rhs) : anchorPtr_{rhs.anchorPtr_}, current_{rhs.current_} {}
+    template <typename U>
+        requires(!std::is_const_v<U>)
+    Iterator(const Iterator<U>& rhs) : anchorPtr_{rhs.anchorPtr_}, current_{rhs.current_}, round_{rhs.round_} {}
 
     reference operator*() const { return this->current_->data_; }
     pointer operator->() { return &(this->current_->data_); }
 
-    friend bool operator==(const Iterator& lhs, const Iterator& rhs)  { return lhs.current_ == rhs.current_ && lhs.round_ == rhs.round_; }
+    friend bool operator==(const Iterator& lhs, const Iterator& rhs) {
+        return lhs.current_ == rhs.current_ && lhs.round_ == rhs.round_;
+    }
 
     Iterator& operator--() {
         this->current_ = this->current_->prev_;
@@ -66,7 +69,6 @@ class Iterator  {
         ++(*this);
         return cop;
     }
-    
 };
 static_assert(std::bidirectional_iterator<Iterator<int>>);
 }  // namespace list_bits

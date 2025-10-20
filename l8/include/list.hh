@@ -4,9 +4,8 @@
 #include <memory>
 
 #include "list_bits.hh"
-namespace cList
-{
-    
+namespace cList {
+
 template <typename T, typename Allocator = std::allocator<list_bits::ListNode<T>>>
 class CircleList {
    private:
@@ -24,8 +23,6 @@ class CircleList {
     using allocTraits_ = std::allocator_traits<Allocator>;
     using iterator = list_bits::Iterator<T>;
     using const_iterator = list_bits::Iterator<const T>;
-
-
 
     friend std::ostream& operator<<(std::ostream& os, const CircleList& obj) {
         os << '[';
@@ -47,7 +44,7 @@ class CircleList {
 
    public:
     CircleList() : size_{0} {}
-    
+
     explicit CircleList(size_t size) : size_{size} {
         if (size_ == 0) return;
         ringPtr_ = allocator_.allocate(1);
@@ -86,7 +83,7 @@ class CircleList {
         return *this;
     }
     CircleList& operator=(CircleList&& other) noexcept {
-        if(&other == this) return *this;
+        if (&other == this) return *this;
         size_ = other.size_;
         allocator_ = std::move(other.allocator_);
         ringPtr_ = other.ringPtr_;
@@ -180,20 +177,21 @@ class CircleList {
         if (index >= size_) throw std::invalid_argument("Index out of range");
         this->operator[](index) = data;
     }
-    void insert(const size_t index, T&& data) {
-        this->operator[](index) = std::move(data);
-    }
-    T& at(size_t index){
+    void insert(const size_t index, T&& data) { this->operator[](index) = std::move(data); }
+    T& at(size_t index) {
         if (index >= size_) throw std::invalid_argument("Index out of range");
         return this->operator[](index);
     }
-    const T& at(size_t index, int){
+    const T& at(size_t index, int) {
         if (index >= size_) throw std::invalid_argument("Index out of range");
         return this->operator[](index);
     }
 
     iterator begin() { return iterator(ringPtr_); }
-    iterator end() { return iterator(ringPtr_, ringPtr_, 1); }
+    iterator end() {
+        if (size_ == 0) return iterator(ringPtr_);
+        return iterator(ringPtr_, ringPtr_, 1);
+    }
 
     void erase() {
         if (!ringPtr_) return;
@@ -207,4 +205,4 @@ class CircleList {
         size_ = 0;
     };
 };
-} // namespace cList
+}  // namespace cList
