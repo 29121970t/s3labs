@@ -86,6 +86,7 @@ class CircleList {
         return *this;
     }
     CircleList& operator=(CircleList&& other) noexcept {
+        if(&other == this) return *this;
         size_ = other.size_;
         allocator_ = std::move(other.allocator_);
         ringPtr_ = other.ringPtr_;
