@@ -4,7 +4,6 @@
 #include <print>
 
 using namespace std;
-
 using namespace console_utils;
 
 namespace screens {
@@ -48,9 +47,7 @@ bool sortList(cList::CircleList<double> &list) {
 bool findElement(cList::CircleList<double> &list) {
     double data;
     readT(data, "Plese enter list element:");
-    auto a = cList::find(list.begin(), list.end(), data);
-    auto b = list.end();
-    if (a == b) {
+    if (list.end() == cList::find(list.begin(), list.end(), data)) {
         std::cout << "No such element\n";
     } else {
         std::cout << "List contains element\n";
